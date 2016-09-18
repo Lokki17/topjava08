@@ -19,7 +19,7 @@
 <section>
     <h2><a href="index.html">Home</a></h2>
     <h3>Meal list</h3>
-    <a href="meals?action=create">Add Meal</a>
+    <a href="meals?action=create&user=${param.get("user")}">Add Meal</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -42,8 +42,8 @@
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
                 <td>${meal.userId}</td>
-                <td><a href="meals?action=update&id=${meal.id}">Update</a></td>
-                <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
+                <td><a href="meals?action=update&id=${meal.id}&user=${param.get("user")}">Update</a></td>
+                <td><a href="meals?action=delete&id=${meal.id}&user=${param.get("user")}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
