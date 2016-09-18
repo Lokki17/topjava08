@@ -47,9 +47,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     @Override
     public Collection<Meal> getAll(final int userId) {
 
-        final int mockUserId = 1;
         return repository.values().stream()
-                .filter(user -> user.getUserId() == mockUserId)
+                .filter(user -> user.getUserId() == userId)
                 .sorted((user1, user2) -> {
                     int i = user1.getDateTime().toLocalDate().compareTo(user2.getDateTime().toLocalDate());
                     if (i != 0) return i;

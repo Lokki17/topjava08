@@ -34,7 +34,7 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
-        int authorizedUser = 1;
+        int authorizedUser = Integer.parseInt(request.getParameter("user"));
 
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
@@ -48,12 +48,9 @@ public class MealServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Сервлет");
         String action = request.getParameter("action");
-        String userNumber = request.getParameter("user");
-        System.out.println(request.getParameterMap());
-        System.out.println(userNumber);
-        int authorizedUser = 1;
+        //String userNumber = request.getParameter("user");
+        int authorizedUser = Integer.parseInt(request.getParameter("user"));
 
         if (action == null) {
             LOG.info("getAll");

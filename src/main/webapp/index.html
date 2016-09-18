@@ -11,8 +11,15 @@
     <li><a href="users">User List</a></li>
     <li><a href="meals">Meal List</a></li>
 </ul>
-<p><select size="2" multiple name="AuthorizedUser">
-    <option value="1">Пользователь 1</option>
-</select></p>
+<form action="meals" name="user" method="get">
+    <label>
+        <select name="user">
+            <option name="1" selected>1</option>
+            <option name="2">2</option>
+        </select>
+    </label>
+    <input type="submit" name="user">
+</form>
 </body>
 </html>
+
