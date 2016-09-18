@@ -48,7 +48,11 @@ public class MealServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Сервлет");
         String action = request.getParameter("action");
+        String userNumber = request.getParameter("user");
+        System.out.println(request.getParameterMap());
+        System.out.println(userNumber);
         int authorizedUser = 1;
 
         if (action == null) {

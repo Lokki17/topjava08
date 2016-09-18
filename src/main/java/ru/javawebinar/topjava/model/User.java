@@ -22,7 +22,7 @@ public class User extends NamedEntity {
 
     protected int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
-    private List<Meal> mealsList = new ArrayList<>();
+    private List<Integer> mealsList = new ArrayList<>();
 
     public User() {
     }
@@ -88,12 +88,12 @@ public class User extends NamedEntity {
         return id == null;
     }
 
-    public List<Meal> getMealsList() {
+    public List<Integer> getMealsList() {
         return mealsList;
     }
 
-    public void addMeal(Meal meal){
-        mealsList.add(meal);
+    public void addMealId(Meal meal){
+        mealsList.add(meal.getId());
     }
 
 
