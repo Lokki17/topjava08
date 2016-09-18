@@ -2,9 +2,7 @@ package ru.javawebinar.topjava.model;
 
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: gkislin
@@ -23,6 +21,8 @@ public class User extends NamedEntity {
     protected Set<Role> roles;
 
     protected int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
+
+    private List<Meal> mealsList = new ArrayList<>();
 
     public User() {
     }
@@ -83,6 +83,19 @@ public class User extends NamedEntity {
     public String getPassword() {
         return password;
     }
+
+    public boolean isNew() {
+        return id == null;
+    }
+
+    public List<Meal> getMealsList() {
+        return mealsList;
+    }
+
+    public void addMeal(Meal meal){
+        mealsList.add(meal);
+    }
+
 
     @Override
     public String toString() {

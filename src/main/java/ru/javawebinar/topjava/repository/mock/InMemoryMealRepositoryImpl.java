@@ -1,13 +1,17 @@
 package ru.javawebinar.topjava.repository.mock;
 
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -41,8 +45,17 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll() {
-        return repository.values();
+    public Collection<Meal> getAll(final int userId) {
+
+        final int mockUserId = 1;
+        return repository.values().stream()
+                .filter(user -> user.getUserId() == mockUserId)
+                .sorted((user1, user2) -> {
+                    int i = user1.getDateTime().toLocalDate().compareTo(user2.getDateTime().toLocalDate());
+                    if (i != 0) return i;
+                    return user1.getDateTime().toLocalTime().compareTo(user2.getDateTime().toLocalTime());
+                })
+                .collect(Collectors.toList());
     }
 }
 
