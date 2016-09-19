@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.service;
 
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
 
@@ -25,6 +27,7 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void delete(int id) {
+        chekUser(id);
         repository.delete(id);
     }
 
@@ -36,6 +39,12 @@ public class MealServiceImpl implements MealService {
     @Override
     public Collection<Meal> getAll(int userId) {
         return repository.getAll(userId);
+    }
+
+    private void chekUser(int userId){
+        if (userId != AuthorizedUser.getId()){
+            throw new NotFoundException("Wrong id");
+        }
     }
 
 }

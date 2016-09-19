@@ -2,10 +2,8 @@ package ru.javawebinar.topjava.web.meal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
 
@@ -43,11 +41,5 @@ public abstract class AbstractMealController {
         meal.setId(id);
         LOG.info("update " + meal);
         service.save(meal);
-    }
-
-    private void chekUser(int userId){
-        if (userId != AuthorizedUser.getId()){
-            throw new NotFoundException("Wrong id");
-        }
     }
 }
