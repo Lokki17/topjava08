@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class MealServiceImpl implements MealService {
 
-    private MealRepository repository;// = new InMemoryMealRepositoryImpl();
+    private MealRepository repository;
 
     public void setRepository(MealRepository repository) {
         this.repository = repository;

@@ -19,7 +19,7 @@ public class ProfileRestController extends AbstractUserController {
         super.delete(AuthorizedUser.getId());
     }
 
-    public void update(User user) {
+    public void save(User user) {
         super.update(user, AuthorizedUser.getId());
     }
 }
