@@ -4,6 +4,8 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
+import java.util.Collection;
+
 
 /**
  * GKislin
@@ -21,5 +23,10 @@ public class MealRestController extends AbstractMealController{
 
     public void save(Meal meal) {
         super.save(meal, AuthorizedUser.getId());
+    }
+
+    @Override
+    public Collection<Meal> getAll(int userId) {
+        return super.getAll(AuthorizedUser.getId());
     }
 }
