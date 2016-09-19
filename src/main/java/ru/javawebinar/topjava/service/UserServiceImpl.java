@@ -13,11 +13,15 @@ import java.util.List;
  * GKislin
  * 06.03.2015.
  */
-@Service
+//@Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    //@Autowired
     private UserRepository repository;
+
+    public void setRepository(UserRepository repository) {
+        this.repository = repository;
+    }
 
     public User save(User user) {
         return repository.save(user);

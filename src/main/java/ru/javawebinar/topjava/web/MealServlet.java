@@ -2,10 +2,14 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.service.MealServiceImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.TimeUtil;
@@ -29,13 +33,18 @@ public class MealServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
     //private MealRepository repository;
+    //@Autowired
+    private MealService mealService;// = new MealServiceImpl();
 
-    private MealServiceImpl mealService;
+    public void setMealService(MealService mealService) {
+        this.mealService = mealService;
+    }
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        mealService = new MealServiceImpl();
+        ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        mealService = appCtx.getBean(MealServiceImpl.class);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,24 +77,27 @@ public class MealServlet extends HttpServlet {
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("filterDate".equals(action)){
-
-            LocalDate fromDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("fromDate")) :
-                    LocalDate.MIN;
-            LocalDate toDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("toDate")) :
-                    LocalDate.MAX;
+            String fromDateStr = request.getParameter("fromDate");
+            String toDateStr = request.getParameter("toDate");
 
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromDate, toDate, AuthorizedUser.getCaloriesPerDay()));
+                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()),
+                            !fromDateStr.isEmpty() ? TimeUtil.toLocalDate(fromDateStr) : LocalDate.MIN,
+                            !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX,
+                            AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+
         } else if ("filterTime".equals(action)){
-            LocalTime fromTime = !request.getParameter("fromTime").isEmpty() ? TimeUtil.toLocalTime(request.getParameter("fromTime")) :
-                    LocalTime.MIN;
-            LocalTime toTime = !request.getParameter("toTime").isEmpty() ?  TimeUtil.toLocalTime(request.getParameter("toTime")) :
-                    LocalTime.MAX;
+            String fromTimeStr = request.getParameter("fromTime");
+            String toTimeStr = request.getParameter("toTime");
 
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromTime, toTime, AuthorizedUser.getCaloriesPerDay()));
+                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()),
+                            !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN,
+                            !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX,
+                            AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+
         } else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);

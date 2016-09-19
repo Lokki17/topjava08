@@ -14,9 +14,11 @@ import java.util.Collection;
  */
 public class MealServiceImpl implements MealService {
 
-    //private MealRepository repository;
-    private MealRepository repository = new InMemoryMealRepositoryImpl();
+    private MealRepository repository;// = new InMemoryMealRepositoryImpl();
 
+    public void setRepository(MealRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Meal save(Meal meal) {

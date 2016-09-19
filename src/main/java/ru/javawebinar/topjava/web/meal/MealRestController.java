@@ -9,4 +9,7 @@ import ru.javawebinar.topjava.service.MealService;
 public class MealRestController {
     private MealService service;
 
+    public void setService(MealService service) {
+        this.service = service;
+    }
 }
