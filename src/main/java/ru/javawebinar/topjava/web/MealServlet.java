@@ -67,12 +67,30 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.getWithExceeded(mealService.getAll(AuthorizedUser.id()), AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-        } else if ("filter".equals(action)){
+        } else if ("filterDate".equals(action)){
 
             LocalDate fromDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("fromDate")) :
                     LocalDate.MIN;
             LocalDate toDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("toDate")) :
                     LocalDate.MAX;
+
+/*            LocalTime fromTime = !request.getParameter("fromTime").isEmpty() ? TimeUtil.toLocalTime(request.getParameter("fromTime")) :
+                    LocalTime.MIN;
+            LocalTime toTime = !request.getParameter("toTime").isEmpty() ?  TimeUtil.toLocalTime(request.getParameter("toTime")) :
+                    LocalTime.MAX;*/
+
+/*            request.setAttribute("mealList",
+                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromTime, toTime, AuthorizedUser.getCaloriesPerDay()));
+            request.getRequestDispatcher("/mealList.jsp").forward(request, response);*/
+            request.setAttribute("mealList",
+                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromDate, toDate, AuthorizedUser.getCaloriesPerDay()));
+            request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+        } else if ("filterTime".equals(action)){
+
+/*            LocalDate fromDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("fromDate")) :
+                    LocalDate.MIN;
+            LocalDate toDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("toDate")) :
+                    LocalDate.MAX;*/
 
             LocalTime fromTime = !request.getParameter("fromTime").isEmpty() ? TimeUtil.toLocalTime(request.getParameter("fromTime")) :
                     LocalTime.MIN;
@@ -83,11 +101,9 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromTime, toTime, AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);*/
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromDate, toDate, AuthorizedUser.getCaloriesPerDay()));
+                    MealsUtil.getFilteredWithExceeded(mealService.getAll(AuthorizedUser.id()), fromTime, toTime, AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
-        }
-
-        else if ("delete".equals(action)) {
+        } else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);
 

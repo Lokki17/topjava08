@@ -54,11 +54,14 @@
         <input type="date" name="fromDate">
         <input type="date" name="toDate">
     </label><br>
+<input type="submit" name="action" value="filterDate">
+</form>
+<form method="get" action="meals">
     <label>
         <input type="time" name="fromTime">
         <input type="time" name="toTime">
     </label><br>
-<input type="submit" name="action" value="filter">
+    <input type="submit" name="action" value="filterTime">
 </form>
 </body>
 </html>
