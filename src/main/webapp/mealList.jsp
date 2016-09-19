@@ -48,5 +48,17 @@
         </c:forEach>
     </table>
 </section>
+<hr>
+<form method="get" action="meals">
+    <label>
+        <input type="date" name="fromDate">
+        <input type="date" name="toDate">
+    </label><br>
+    <label>
+        <input type="time" name="fromTime">
+        <input type="time" name="toTime">
+    </label><br>
+<input type="submit" name="action" value="filter">
+</form>
 </body>
 </html>

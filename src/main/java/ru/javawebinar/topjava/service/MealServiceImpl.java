@@ -39,13 +39,11 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        System.out.println("В методе милсервиса" + userId);
         chekUser(userId);
         return repository.getAll(userId);
     }
 
     private void chekUser(int userId){
-        System.out.println("В методе " + userId + " Authorized.id " + AuthorizedUser.id());
         if (userId != AuthorizedUser.id()){
             throw new NotFoundException("Wrong id");
         }

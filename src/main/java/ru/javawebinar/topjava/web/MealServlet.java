@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.service.MealServiceImpl;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.TimeUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,7 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 /**
@@ -70,7 +73,27 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.getWithExceeded(mealService.getAll(AuthorizedUser.id()), AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-        } else if ("delete".equals(action)) {
+        } else if ("filter".equals(action)){
+
+            LocalDate fromDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("fromDate")) :
+                    LocalDate.MIN;
+            LocalDate toDate = !request.getParameter("fromDate").isEmpty() ? TimeUtil.toLocalDate(request.getParameter("toDate")) :
+                    LocalDate.MAX;
+
+            LocalTime fromTime = !request.getParameter("fromTime").isEmpty() ? TimeUtil.toLocalTime(request.getParameter("fromTime")) :
+                    LocalTime.MIN;
+            LocalTime toTime = !request.getParameter("fromTime").isEmpty() ?  TimeUtil.toLocalTime(request.getParameter("fromTime")) :
+                    LocalTime.MAX;
+
+            //LocalDateTime fromDateTime = LocalDateTime.of(fromDate, fromTime);
+            //LocalDateTime toDateTime = LocalDateTime.of(fromDate, fromTime);
+
+            request.setAttribute("mealList",
+                    MealsUtil.getFilteredWithExceededByCycle(mealService.getAll(AuthorizedUser.id()), fromTime, toTime, AuthorizedUser.getCaloriesPerDay()));
+            request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+        }
+
+        else if ("delete".equals(action)) {
             int id = getId(request);
             LOG.info("Delete {}", id);
             //repository.delete(id);
