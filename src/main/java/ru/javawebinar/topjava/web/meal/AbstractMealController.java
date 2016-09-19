@@ -38,9 +38,7 @@ public abstract class AbstractMealController {
     }
 
     public void save(Meal meal, int userId) {
-        int id = meal.getId();
-        Meal newMeal = new Meal(id, meal.getDateTime(), meal.getDescription(), meal.getCalories(), userId);
-        //meal.set(id);
+        Meal newMeal = new Meal(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), userId);
         LOG.info("update " + newMeal);
         service.save(newMeal);
     }
