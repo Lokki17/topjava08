@@ -35,8 +35,12 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id) {
-        repository.remove(id);
+    public boolean delete(int id) {
+        if (repository.containsKey(id)){
+            repository.remove(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -50,9 +54,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         return repository.values().stream()
                 .filter(user -> user.getUserId() == userId)
                 .sorted((user1, user2) -> {
-                    int i = user1.getDateTime().toLocalDate().compareTo(user2.getDateTime().toLocalDate());
+                    int i = user2.getDateTime().toLocalDate().compareTo(user1.getDateTime().toLocalDate());
                     if (i != 0) return i;
-                    return user1.getDateTime().toLocalTime().compareTo(user2.getDateTime().toLocalTime());
+                    return user2.getDateTime().toLocalTime().compareTo(user1.getDateTime().toLocalTime());
                 })
                 .collect(Collectors.toList());
     }

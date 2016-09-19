@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.service;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
@@ -13,7 +14,8 @@ import java.util.Collection;
  */
 public class MealServiceImpl implements MealService {
 
-    private MealRepository repository;
+    //private MealRepository repository;
+    private MealRepository repository = new InMemoryMealRepositoryImpl();
 
 
     @Override
@@ -37,11 +39,13 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        chekUser(repository.get(userId).getUserId());
+        System.out.println("В методе милсервиса" + userId);
+        chekUser(userId);
         return repository.getAll(userId);
     }
 
     private void chekUser(int userId){
+        System.out.println("В методе " + userId + " Authorized.id " + AuthorizedUser.id());
         if (userId != AuthorizedUser.id()){
             throw new NotFoundException("Wrong id");
         }

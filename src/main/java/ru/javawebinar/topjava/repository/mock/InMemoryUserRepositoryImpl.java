@@ -62,15 +62,20 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     public User getByEmail(String email) {
         LOG.info("getByEmail " + email);
 
-        if (email.isEmpty() || email == null){
+        if (email.isEmpty()){
             return null;
         }
 
-        for (Map.Entry<Integer, User> user : repository.entrySet()){
+        return repository.values().stream()
+                .filter(u -> email.equals(u.getEmail()))
+                .findFirst()
+                .orElse(null);
+
+/*        for (Map.Entry<Integer, User> user : repository.entrySet()){
             if (email.equals(user.getValue().getEmail())){
                 return user.getValue();
             }
         }
-        return null;
+        return null;*/
     }
 }
