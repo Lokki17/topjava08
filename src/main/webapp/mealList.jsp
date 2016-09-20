@@ -51,16 +51,18 @@
 <form method="get" action="meals">
     <label>
         <input type="date" name="fromDate">
-        <input type="date" name="toDate">
+        <input type="date" name="toDate"><br>
+        <input type="time" name="fromTime">
+        <input type="time" name="toTime">
     </label><br>
-<input type="submit" name="action" value="filterDate">
+<input type="submit" name="action" value="filter">
 </form>
-<form method="get" action="meals">
+<%--<form method="get" action="meals">
     <label>
         <input type="time" name="fromTime">
         <input type="time" name="toTime">
     </label><br>
     <input type="submit" name="action" value="filterTime">
-</form>
+</form>--%>
 </body>
 </html>

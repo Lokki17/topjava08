@@ -5,30 +5,30 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--Meal-->
-    <bean class="ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl" id="inMemoryMealRepository"/>
+    <!--<bean class="ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl" id="inMemoryMealRepository"/>-->
 
-    <bean class="ru.javawebinar.topjava.service.MealServiceImpl" id="mealService">
+<!--    <bean class="ru.javawebinar.topjava.service.MealServiceImpl" id="mealService">
         <property name="repository" ref="inMemoryMealRepository"/>
-    </bean>
+    </bean>-->
 
-    <bean class="ru.javawebinar.topjava.web.meal.MealRestController" name="mealRestController">
+<!--    <bean class="ru.javawebinar.topjava.web.meal.MealRestController" name="mealRestController">
         <property name="service" ref="mealService"/>
-    </bean>
+    </bean>-->
 
     <!--User-->
-    <bean class="ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl" id="inMemoryUserRepository"/>
+<!--    <bean class="ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl" id="inMemoryUserRepository"/>
 
     <bean class="ru.javawebinar.topjava.service.UserServiceImpl">
         <property name="repository" ref="inMemoryUserRepository"/>
-    </bean>
+    </bean>-->
 
 
-<!--    <context:annotation-config/>
+    <context:annotation-config/>
 
     <context:component-scan base-package="ru.javawebinar.**.repository"/>
 
     <context:component-scan base-package="ru.javawebinar.**.service"/>
 
-    <context:component-scan base-package="ru.javawebinar.**.web"/>-->
+    <context:component-scan base-package="ru.javawebinar.**.web"/>
 
 </beans>

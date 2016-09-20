@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * GKislin
  * 15.06.2015.
  */
-//@Repository
+@Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
 

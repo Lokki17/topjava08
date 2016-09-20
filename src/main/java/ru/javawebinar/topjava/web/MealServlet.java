@@ -77,18 +77,31 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.getWithExceeded(mealRestController.getAll(AuthorizedUser.getId()), AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-        } else if ("filterDate".equals(action)){
+        } else if ("filter".equals(action)){
             String fromDateStr = request.getParameter("fromDate");
             String toDateStr = request.getParameter("toDate");
+            String fromTimeStr = request.getParameter("fromTime");
+            String toTimeStr = request.getParameter("toTime");
+
+            LocalDateTime fromDateTime = LocalDateTime.of(
+                    !fromDateStr.isEmpty() ? TimeUtil.toLocalDate(fromDateStr) : LocalDate.MIN,
+                    !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN);
+            LocalDateTime toDateTime = LocalDateTime.of(
+                    !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX,
+                    !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX);
 
             request.setAttribute("mealList",
-                    MealsUtil.getWithExceeded(mealRestController.getFilteredAll(AuthorizedUser.getId(),
-                            !fromDateStr.isEmpty() ? TimeUtil.toLocalDate(fromDateStr) : LocalDate.MIN,
-                            !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX),
+                    MealsUtil.getFilteredWithExceeded(
+                            mealRestController.getFilteredAll(
+                                    AuthorizedUser.getId(),
+                                    fromDateTime,
+                                    toDateTime),
+                            fromDateTime.toLocalTime(),
+                            toDateTime.toLocalTime(),
                             AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-        } else if ("filterTime".equals(action)){
+/*        } else if ("filterTime".equals(action)){
             String fromTimeStr = request.getParameter("fromTime");
             String toTimeStr = request.getParameter("toTime");
 
@@ -97,7 +110,7 @@ public class MealServlet extends HttpServlet {
                             !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN,
                             !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX),
                             AuthorizedUser.getCaloriesPerDay()));
-            request.getRequestDispatcher("/mealList.jsp").forward(request, response);
+            request.getRequestDispatcher("/mealList.jsp").forward(request, response);*/
 
         } else if ("delete".equals(action)) {
             int id = getId(request);
