@@ -28,6 +28,10 @@ public class MealRestController extends AbstractMealController{
         return meal;
     }
 
+    public void update(Meal meal) {
+        super.save(meal, AuthorizedUser.getId());
+    }
+
     @Override
     public Collection<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         return super.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime);

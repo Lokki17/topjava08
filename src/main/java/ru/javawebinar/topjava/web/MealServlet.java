@@ -60,15 +60,20 @@ public class MealServlet extends HttpServlet {
 
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
 
-        mealRestController.save(meal);
+        if (id.isEmpty()) {
+            mealRestController.save(meal);
+        } else {
+            mealRestController.update(meal);
+        }
         response.sendRedirect("meals");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if (request.getParameter("user") != null && !request.getParameter("user").isEmpty()){
-            AuthorizedUser.setId(Integer.parseInt(request.getParameter("user")));}
+        if (request.getParameter("user") != null && !request.getParameter("user").isEmpty()) {
+            AuthorizedUser.setId(Integer.parseInt(request.getParameter("user")));
+        }
 
         if (action == null) {
             LOG.info("getAll");
@@ -77,7 +82,7 @@ public class MealServlet extends HttpServlet {
                     MealsUtil.getWithExceeded(mealRestController.getAll(AuthorizedUser.getId()), AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
-        } else if ("filter".equals(action)){
+        } else if ("filter".equals(action)) {
             String fromDateStr = request.getParameter("fromDate");
             String toDateStr = request.getParameter("toDate");
             String fromTimeStr = request.getParameter("fromTime");
@@ -88,7 +93,7 @@ public class MealServlet extends HttpServlet {
                     !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN);
             LocalDateTime toDateTime = LocalDateTime.of(
                     !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX,
-                    !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX);
+                    !toTimeStr.isEmpty() ? TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX);
 
             request.setAttribute("mealList",
                     MealsUtil.getFilteredWithExceeded(
