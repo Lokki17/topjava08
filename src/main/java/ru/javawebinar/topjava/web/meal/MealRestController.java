@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web.meal;
 import org.springframework.stereotype.Controller;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.to.MealWithExceed;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +34,7 @@ public class MealRestController extends AbstractMealController{
     }
 
     @Override
-    public List<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+    public List<MealWithExceed> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         return super.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime);
     }
 }

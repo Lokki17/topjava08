@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.to.MealWithExceed;
 import ru.javawebinar.topjava.service.MealService;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public abstract class AbstractMealController {
@@ -20,9 +23,15 @@ public abstract class AbstractMealController {
         this.service = service;
     }*/
 
-    public List<Meal> getAll(int userId) {
+    public List<MealWithExceed> getAll(int userId) {
         LOG.info("getAll");
-        return service.getFilteredAll(userId, LocalDateTime.MIN, LocalDateTime.MAX);
+        return MealsUtil.getFilteredWithExceeded(
+                service.getFilteredAll(userId,
+                LocalDateTime.MIN,
+                LocalDateTime.MAX),
+                LocalTime.MIN,
+                LocalTime.MAX,
+                AuthorizedUser.getCaloriesPerDay());
     }
 
     public Meal get(int id, int userId) {
@@ -47,7 +56,11 @@ public abstract class AbstractMealController {
         service.save(newMeal, userId);
     }
 
-    public List<Meal> getFilteredAll(int id, LocalDateTime fromTime, LocalDateTime toTime) {
-        return service.getFilteredAll(id, fromTime, toTime);
+    public List<MealWithExceed> getFilteredAll(int id, LocalDateTime fromTime, LocalDateTime toTime) {
+        return MealsUtil.getFilteredWithExceeded(
+                service.getFilteredAll(id, fromTime, toTime),
+                fromTime.toLocalTime(),
+                toTime.toLocalTime(),
+                AuthorizedUser.getCaloriesPerDay());
     }
 }

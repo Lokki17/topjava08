@@ -79,9 +79,7 @@ public class MealServlet extends HttpServlet {
             LOG.info("getAll");
 
             request.setAttribute("mealList",
-                    MealsUtil.getWithExceeded(
-                            mealRestController.getFilteredAll(AuthorizedUser.getId(), LocalDateTime.MIN, LocalDateTime.MAX),
-                            AuthorizedUser.getCaloriesPerDay()));
+                    mealRestController.getFilteredAll(AuthorizedUser.getId(), LocalDateTime.MIN, LocalDateTime.MAX));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("filter".equals(action)) {
@@ -98,11 +96,7 @@ public class MealServlet extends HttpServlet {
                     !toTimeStr.isEmpty() ? TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX);
 
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(
-                            mealRestController.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime),
-                            fromDateTime.toLocalTime(),
-                            toDateTime.toLocalTime(),
-                            AuthorizedUser.getCaloriesPerDay()));
+                    mealRestController.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {
