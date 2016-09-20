@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * GKislin
@@ -18,9 +19,7 @@ public interface MealRepository {
 
     Meal get(int id, int userId);
 
-    Collection<Meal> getAll(int userId);
+    List<Meal> getAll(int userId);
 
-    Collection<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime);
-
-    /*Collection<Meal> getFilteredAll(int id, LocalDate fromDate, LocalDate toDate);*/
+    List<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime);
 }

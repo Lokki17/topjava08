@@ -79,7 +79,9 @@ public class MealServlet extends HttpServlet {
             LOG.info("getAll");
 
             request.setAttribute("mealList",
-                    MealsUtil.getWithExceeded(mealRestController.getAll(AuthorizedUser.getId()), AuthorizedUser.getCaloriesPerDay()));
+                    MealsUtil.getWithExceeded(
+                            mealRestController.getFilteredAll(AuthorizedUser.getId(), LocalDateTime.MIN, LocalDateTime.MAX),
+                            AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("filter".equals(action)) {
@@ -97,25 +99,11 @@ public class MealServlet extends HttpServlet {
 
             request.setAttribute("mealList",
                     MealsUtil.getFilteredWithExceeded(
-                            mealRestController.getFilteredAll(
-                                    AuthorizedUser.getId(),
-                                    fromDateTime,
-                                    toDateTime),
+                            mealRestController.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime),
                             fromDateTime.toLocalTime(),
                             toDateTime.toLocalTime(),
                             AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
-
-/*        } else if ("filterTime".equals(action)){
-            String fromTimeStr = request.getParameter("fromTime");
-            String toTimeStr = request.getParameter("toTime");
-
-            request.setAttribute("mealList",
-                    MealsUtil.getWithExceeded(mealRestController.getFilteredAll(AuthorizedUser.getId(),
-                            !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN,
-                            !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX),
-                            AuthorizedUser.getCaloriesPerDay()));
-            request.getRequestDispatcher("/mealList.jsp").forward(request, response);*/
 
         } else if ("delete".equals(action)) {
             int id = getId(request);

@@ -5,7 +5,7 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -33,12 +33,7 @@ public class MealRestController extends AbstractMealController{
     }
 
     @Override
-    public Collection<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+    public List<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         return super.getFilteredAll(AuthorizedUser.getId(), fromDateTime, toDateTime);
-    }
-
-    @Override
-    public Collection<Meal> getAll(int userId) {
-        return super.getAll(AuthorizedUser.getId());
     }
 }

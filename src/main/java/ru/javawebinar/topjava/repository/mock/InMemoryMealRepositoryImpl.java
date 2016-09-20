@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,7 +58,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getAll(final int userId) {
+    public List<Meal> getAll(final int userId) {
 
         return repository.values().stream()
                 .filter(user -> user.getUserId() == userId)
@@ -66,7 +67,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public Collection<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+    public List<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         return getAll(id).stream()
                 .filter(user -> TimeUtil.isBetween(user.getDateTime().toLocalDate(), fromDateTime.toLocalDate(), toDateTime.toLocalDate()))
                 .collect(Collectors.toList());

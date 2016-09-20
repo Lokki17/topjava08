@@ -52,7 +52,6 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
         return repository.values().stream()
                 .sorted((o1, o2) -> o2.getName().compareTo(o1.getName()))
                 .collect(Collectors.toList());
-/*      return users != null ? users : Collections.EMPTY_LIST;*/
     }
 
     @Override

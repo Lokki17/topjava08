@@ -7,10 +7,8 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Collection;
+import java.util.List;
 
 public abstract class AbstractMealController {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMealController.class);
@@ -22,7 +20,7 @@ public abstract class AbstractMealController {
         this.service = service;
     }*/
 
-    public Collection<Meal> getAll(int userId) {
+    public List<Meal> getAll(int userId) {
         LOG.info("getAll");
         return service.getFilteredAll(userId, LocalDateTime.MIN, LocalDateTime.MAX);
     }
@@ -49,11 +47,7 @@ public abstract class AbstractMealController {
         service.save(newMeal, userId);
     }
 
-    public Collection<Meal> getFilteredAll(int id, LocalDateTime fromTime, LocalDateTime toTime) {
+    public List<Meal> getFilteredAll(int id, LocalDateTime fromTime, LocalDateTime toTime) {
         return service.getFilteredAll(id, fromTime, toTime);
     }
-
-/*    public Collection<Meal> getFilteredAll(int id, LocalDate fromDate, LocalDate toDate) {
-        return service.getFilteredAll(id, fromDate, toDate);
-    }*/
 }
