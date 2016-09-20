@@ -36,7 +36,7 @@ public class MealServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
     //@Autowired
-    private static MealRestController mealRestController;
+    private MealRestController mealRestController;
 
     private static ConfigurableApplicationContext appCtx;
 
