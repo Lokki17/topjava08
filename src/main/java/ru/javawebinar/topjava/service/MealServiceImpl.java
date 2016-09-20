@@ -1,8 +1,10 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collection;
@@ -13,7 +15,8 @@ import java.util.Collection;
  */
 public class MealServiceImpl implements MealService {
 
-    private MealRepository repository;
+    //@Autowired
+    private MealRepository repository;// = new InMemoryMealRepositoryImpl();
 
     public void setRepository(MealRepository repository) {
         this.repository = repository;
