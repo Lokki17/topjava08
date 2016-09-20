@@ -30,7 +30,6 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public void delete(int id) {
-        System.out.println(id);
         chekUser(repository.get(id).getUserId());
         repository.delete(id);
     }
@@ -46,8 +45,6 @@ public class MealServiceImpl implements MealService {
     }
 
     private void chekUser(int userId){
-        System.out.println(userId);
-        System.out.println(AuthorizedUser.getId());
         if (userId != AuthorizedUser.getId()){
             throw new NotFoundException("Wrong id");
         }
