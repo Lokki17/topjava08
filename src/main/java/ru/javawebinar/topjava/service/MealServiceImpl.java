@@ -38,26 +38,42 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal get(int id) {
-        return repository.get(id);
+        Meal meal = repository.get(id);
+        if (meal == null) {
+            throw new NotFoundException("Empty meal");
+        }
+        return meal;
     }
 
     @Override
     public Collection<Meal> getAll(int userId) {
-        return repository.getAll(userId);
+        Collection<Meal> meals = repository.getAll(userId);
+        if (meals.isEmpty()){
+            throw new NotFoundException("Empty list");
+        }
+        return meals;
     }
 
     @Override
     public Collection<Meal> getFilteredAll(int id, LocalTime fromTime, LocalTime toTime) {
-        return repository.getFilteredAll(id, fromTime, toTime);
+        Collection<Meal> meals = repository.getFilteredAll(id, fromTime, toTime);
+        if (meals.isEmpty()){
+            throw new NotFoundException("Empty list");
+        }
+        return meals;
     }
 
     @Override
     public Collection<Meal> getFilteredAll(int id, LocalDate fromDate, LocalDate toDate) {
-        return repository.getFilteredAll(id, fromDate, toDate);
+        Collection<Meal> meals = repository.getFilteredAll(id, fromDate, toDate);
+        if (meals.isEmpty()){
+            throw new NotFoundException("Empty list");
+        }
+        return meals;
     }
 
-    private void chekUser(int userId){
-        if (userId != AuthorizedUser.getId()){
+    private void chekUser(int userId) {
+        if (userId != AuthorizedUser.getId()) {
             throw new NotFoundException("Wrong id");
         }
     }
