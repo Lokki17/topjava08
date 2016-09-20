@@ -82,9 +82,9 @@ public class MealServlet extends HttpServlet {
             String toDateStr = request.getParameter("toDate");
 
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(mealRestController.getAll(AuthorizedUser.getId()),
+                    MealsUtil.getWithExceeded(mealRestController.getFilteredAll(AuthorizedUser.getId(),
                             !fromDateStr.isEmpty() ? TimeUtil.toLocalDate(fromDateStr) : LocalDate.MIN,
-                            !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX,
+                            !toDateStr.isEmpty() ? TimeUtil.toLocalDate(toDateStr) : LocalDate.MAX),
                             AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
@@ -93,9 +93,9 @@ public class MealServlet extends HttpServlet {
             String toTimeStr = request.getParameter("toTime");
 
             request.setAttribute("mealList",
-                    MealsUtil.getFilteredWithExceeded(mealRestController.getAll(AuthorizedUser.getId()),
+                    MealsUtil.getWithExceeded(mealRestController.getFilteredAll(AuthorizedUser.getId(),
                             !fromTimeStr.isEmpty() ? TimeUtil.toLocalTime(fromTimeStr.substring(0, 5)) : LocalTime.MIN,
-                            !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX,
+                            !toTimeStr.isEmpty() ?  TimeUtil.toLocalTime(toTimeStr.substring(0, 5)) : LocalTime.MAX),
                             AuthorizedUser.getCaloriesPerDay()));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 

@@ -7,6 +7,8 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 /**
@@ -42,6 +44,16 @@ public class MealServiceImpl implements MealService {
     @Override
     public Collection<Meal> getAll(int userId) {
         return repository.getAll(userId);
+    }
+
+    @Override
+    public Collection<Meal> getFilteredAll(int id, LocalTime fromTime, LocalTime toTime) {
+        return repository.getFilteredAll(id, fromTime, toTime);
+    }
+
+    @Override
+    public Collection<Meal> getFilteredAll(int id, LocalDate fromDate, LocalDate toDate) {
+        return repository.getFilteredAll(id, fromDate, toDate);
     }
 
     private void chekUser(int userId){

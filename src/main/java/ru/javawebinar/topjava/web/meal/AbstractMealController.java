@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 public abstract class AbstractMealController {
@@ -41,5 +43,13 @@ public abstract class AbstractMealController {
         Meal newMeal = new Meal(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), userId);
         LOG.info("update " + newMeal);
         service.save(newMeal);
+    }
+
+    public Collection<Meal> getFilteredAll(int id, LocalTime fromTime, LocalTime toTime) {
+        return service.getFilteredAll(id, fromTime, toTime);
+    }
+
+    public Collection<Meal> getFilteredAll(int id, LocalDate fromDate, LocalDate toDate) {
+        return service.getFilteredAll(id, fromDate, toDate);
     }
 }

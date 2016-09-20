@@ -67,12 +67,5 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
                 .filter(u -> email.equals(u.getEmail()))
                 .findFirst()
                 .orElse(null);
-
-/*        for (Map.Entry<Integer, User> user : repository.entrySet()){
-            if (email.equals(user.getValue().getEmail())){
-                return user.getValue();
-            }
-        }
-        return null;*/
     }
 }
