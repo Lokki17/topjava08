@@ -45,7 +45,7 @@ public class MealServiceImpl implements MealService {
     public List<Meal> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
         List<Meal> meals = repository.getFilteredAll(id, fromDateTime, toDateTime);
         if (meals.isEmpty()){
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return meals;
     }

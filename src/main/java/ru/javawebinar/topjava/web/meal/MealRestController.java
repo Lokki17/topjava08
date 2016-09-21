@@ -29,9 +29,11 @@ public class MealRestController extends AbstractMealController{
         return meal;
     }
 
+/*
     public void update(Meal meal) {
         super.save(meal, AuthorizedUser.getId());
     }
+*/
 
     @Override
     public List<MealWithExceed> getFilteredAll(int id, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
