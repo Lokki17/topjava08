@@ -20,8 +20,8 @@ public class MealRestController extends AbstractMealController{
         return super.get(id, AuthorizedUser.getId());
     }
 
-    public void delete() {
-        super.delete(AuthorizedUser.getId());
+    public void delete(int id) {
+        super.delete(id, AuthorizedUser.getId());
     }
 
     public Meal save(Meal meal) {
