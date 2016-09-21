@@ -60,13 +60,11 @@ public class MealServlet extends HttpServlet {
 
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
 
-        mealRestController.save(meal);
-
-/*        if (id.isEmpty()) {
+        if (id.isEmpty()) {
             mealRestController.save(meal);
         } else {
             mealRestController.update(meal);
-        }*/
+        }
         response.sendRedirect("meals");
     }
 
