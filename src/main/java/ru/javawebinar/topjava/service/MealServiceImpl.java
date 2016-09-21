@@ -1,12 +1,10 @@
 package ru.javawebinar.topjava.service;
 
-import com.sun.xml.internal.ws.util.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -24,21 +22,22 @@ public class MealServiceImpl implements MealService {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        repository.save(meal, userId);
+        ExceptionUtil.checkNotFound(repository.save(meal, userId), meal.toString());
         return meal;
     }
 
     @Override
     public void delete(int id, int userId) {
-        repository.delete(id, userId);
+        ExceptionUtil.checkNotFound(repository.delete(id, userId), Integer.toString(userId));
     }
 
     @Override
     public Meal get(int id, int userId) {
         Meal meal = repository.get(id, userId);
-        if (meal == null) {
+        ExceptionUtil.checkNotFound(meal, meal.toString());
+/*        if (meal == null) {
             throw new NotFoundException("Empty meal");
-        }
+        }*/
         return meal;
     }
 
