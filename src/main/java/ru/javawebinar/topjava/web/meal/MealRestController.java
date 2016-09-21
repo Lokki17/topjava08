@@ -29,7 +29,11 @@ public class MealRestController extends AbstractMealController{
     }
 
     public void update(Meal meal) {
-        super.save(meal, AuthorizedUser.getId());
+        super.update(meal, AuthorizedUser.getId());
+    }
+
+    public List<MealWithExceed> getAll(){
+        return super.getAll(AuthorizedUser.getId());
     }
 
     @Override

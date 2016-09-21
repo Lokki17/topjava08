@@ -31,11 +31,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Meal save(Meal meal, int userId) {
 
         if (meal.isNew()) {
-            checkId(meal.getUserId(), userId);
+            checkId(meal, userId);
             meal.setId(counter.incrementAndGet());
         } else {
-            Meal mealCheck = repository.get(meal.getId());
-            checkId(mealCheck.getUserId(), userId);
+            checkId(repository.get(meal.getId()), userId);
         }
         repository.put(meal.getId(), meal);
         return meal;
@@ -43,14 +42,14 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        checkId(repository.get(id).getUserId(), userId);
+        checkId(repository.get(id), userId);
         return repository.remove(id) != null;
     }
 
     @Override
     public Meal get(int id, int userId) {
         Meal meal = repository.get(id);
-        checkId(meal.getUserId(), userId);
+        checkId(meal, userId);
         return meal;
     }
 
@@ -70,8 +69,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
                 .collect(Collectors.toList());
     }
 
-    private void checkId(int id, int userId){
-        if (id != userId){
+    private void checkId(Meal checkMeal, int userId){
+        if (checkMeal == null || checkMeal.getUserId() != userId){
             throw new NotFoundException("wrong id");
         }
     }

@@ -25,7 +25,7 @@ public abstract class AbstractMealController {
 
     public List<MealWithExceed> getAll(int userId) {
         LOG.info("getAll");
-        return getFilteredAll(AuthorizedUser.getId(), LocalDateTime.MIN, LocalDateTime.MAX);
+        return getFilteredAll(userId, LocalDateTime.MIN, LocalDateTime.MAX);
     }
 
     public Meal get(int id, int userId) {
@@ -34,7 +34,6 @@ public abstract class AbstractMealController {
     }
 
     public Meal save(Meal meal, int userId) {
-        //meal.setId(meal.getId());
         LOG.info("create " + meal);
         return service.save(meal, userId);
     }
@@ -44,11 +43,10 @@ public abstract class AbstractMealController {
         service.delete(id, userId);
     }
 
-/*    public void update(Meal meal, int userId) {
-        //Meal newMeal = new Meal(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), userId);
+    public void update(Meal meal, int userId) {
         LOG.info("update " + meal);
         service.save(meal, userId);
-    }*/
+    }
 
     public List<MealWithExceed> getFilteredAll(int id, LocalDateTime fromTime, LocalDateTime toTime) {
         return MealsUtil.getFilteredWithExceeded(

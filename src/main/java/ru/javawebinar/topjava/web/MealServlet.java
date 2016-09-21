@@ -60,7 +60,7 @@ public class MealServlet extends HttpServlet {
 
         LOG.info(meal.isNew() ? "Create {}" : "Update {}", meal);
 
-        if (id.isEmpty()) {
+        if (meal.isNew()) {
             mealRestController.save(meal);
         } else {
             mealRestController.update(meal);
@@ -79,7 +79,7 @@ public class MealServlet extends HttpServlet {
             LOG.info("getAll");
 
             request.setAttribute("mealList",
-                    mealRestController.getFilteredAll(AuthorizedUser.getId(), LocalDateTime.MIN, LocalDateTime.MAX));
+                    mealRestController.getAll());
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("filter".equals(action)) {

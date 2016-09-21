@@ -35,9 +35,6 @@ public class MealServiceImpl implements MealService {
     public Meal get(int id, int userId) {
         Meal meal = repository.get(id, userId);
         ExceptionUtil.checkNotFound(meal, meal.toString());
-/*        if (meal == null) {
-            throw new NotFoundException("Empty meal");
-        }*/
         return meal;
     }
 
