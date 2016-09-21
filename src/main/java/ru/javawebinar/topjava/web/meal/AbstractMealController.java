@@ -25,12 +25,10 @@ public abstract class AbstractMealController {
 
     public List<MealWithExceed> getAll(int userId) {
         LOG.info("getAll");
-        return MealsUtil.getFilteredWithExceeded(
+        return MealsUtil.getWithExceeded(
                 service.getFilteredAll(userId,
                 LocalDateTime.MIN,
                 LocalDateTime.MAX),
-                LocalTime.MIN,
-                LocalTime.MAX,
                 AuthorizedUser.getCaloriesPerDay());
     }
 
