@@ -25,8 +25,7 @@ public class MealRestController extends AbstractMealController{
     }
 
     public Meal save(Meal meal) {
-        super.save(meal, AuthorizedUser.getId());
-        return meal;
+        return super.save(meal, AuthorizedUser.getId());
     }
 
 /*
