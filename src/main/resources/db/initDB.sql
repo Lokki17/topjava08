@@ -22,7 +22,7 @@ CREATE TABLE meals
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   userId      INTEGER NOT NULL REFERENCES users (id),
   dateTime    TIMESTAMP DEFAULT now(),
-  desctiption VARCHAR,
+  description VARCHAR,
   calories    INTEGER DEFAULT 2000 NOT NULL
 );
 CREATE UNIQUE INDEX meals_unique_id ON meals (id);
