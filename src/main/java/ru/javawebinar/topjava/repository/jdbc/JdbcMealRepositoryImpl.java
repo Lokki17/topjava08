@@ -45,19 +45,18 @@ public class JdbcMealRepositoryImpl implements MealRepository {
                 .addValue("calories", meal.getCalories())
                 .addValue("dateTime", meal.getDate())
                 .addValue("description", meal.getDescription())
-                .addValue("userId", userId);
+                .addValue("userId", userId)
+                .addValue("id", meal.getId());
         if (meal.isNew()){
             int mealId = (Integer) simpleJdbcInsert.executeAndReturnKey(map);
             meal.setId(mealId);
         } else {
+            int id = meal.getId();
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET calories=:calories, datetime=:dateTime, description=:description WHERE id=:id", map);
+                    "UPDATE meals SET calories=:calories, datetime=:dateTime, " +
+                            "description=:description WHERE id=:id", map);
         }
         return meal;
-
-/*        namedParameterJdbcTemplate.update(
-                "UPDATE users SET name=:name, email=:email, password=:password, " +
-                        "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);*/
     }
 
     @Override
@@ -73,12 +72,12 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE userId=userid ORDER BY dateTime", ROW_MEAL_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE userId=? ORDER BY dateTime", ROW_MEAL_MAPPER, userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE userId=? " +
-                "AND datetime>=? AND datetime<=?", ROW_MEAL_MAPPER, userId, startDate, endDate);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE userId=? AND datetime>=? " +
+                "AND datetime<=? ORDER BY dateTime", ROW_MEAL_MAPPER, userId, startDate, endDate);
     }
 }
