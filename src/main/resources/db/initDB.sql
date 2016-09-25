@@ -26,6 +26,7 @@ CREATE TABLE meals
   calories    INTEGER DEFAULT 2000 NOT NULL
 );
 CREATE UNIQUE INDEX meals_unique_id ON meals (id);
+CREATE INDEX idx_meal ON meals(id);
 
 CREATE TABLE user_roles
 (

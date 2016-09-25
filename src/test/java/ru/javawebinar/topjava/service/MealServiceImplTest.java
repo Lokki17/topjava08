@@ -43,6 +43,12 @@ public class MealServiceImplTest {
         MATCHER.assertEquals(testMeal, MEAL1);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void testWrongMeal() throws Exception {
+        mealService.get(MEAL1.getId(), ADMIN_ID);
+
+    }
+
     @Test
     public void testDelete() throws Exception {
         mealService.delete(ADMIN_MEAL_ID, ADMIN_ID);
