@@ -9,7 +9,7 @@ import java.time.LocalTime;
  * 11.01.2015.
  */
 public class Meal extends BaseEntity {
-    private Integer id;
+    //private Integer id;
 
     private LocalDateTime dateTime;
 
@@ -30,8 +30,6 @@ public class Meal extends BaseEntity {
         this.description = description;
         this.calories = calories;
     }
-
-
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -65,7 +63,7 @@ public class Meal extends BaseEntity {
         this.calories = calories;
     }
 
-    @Override
+/*    @Override
     public Integer getId() {
         return id;
     }
@@ -78,7 +76,7 @@ public class Meal extends BaseEntity {
     @Override
     public boolean isNew() {
         return this.id == null;
-    }
+    }*/
 
     @Override
     public String toString() {
