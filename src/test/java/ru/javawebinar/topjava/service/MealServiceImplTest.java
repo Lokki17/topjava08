@@ -21,8 +21,8 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"})
-
+        "classpath:spring/spring-db.xml"
+})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MealServiceImplTest {
 
@@ -66,6 +66,7 @@ public class MealServiceImplTest {
     public void testWrongUserMealDelete() {
         mealService.delete(MEAL_ID, ADMIN_ID);
     }
+
     @Test(expected = NotFoundException.class)
     public void testWrongUserMealGet() {
         mealService.get(MEAL_ID, ADMIN_ID);
