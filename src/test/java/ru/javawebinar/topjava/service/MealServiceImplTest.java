@@ -22,6 +22,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"})
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MealServiceImplTest {
 
@@ -79,7 +80,7 @@ public class MealServiceImplTest {
     public void testGetBetweenDateTimes() throws Exception {
         Collection<Meal> getBetweenMeals = mealService.getBetweenDates(
                 LocalDateTime.of(2015, Month.MAY, 30, 0, 0).toLocalDate(),
-                LocalDateTime.of(2015, Month.MAY, 30, 0, 0).toLocalDate(),
+                LocalDateTime.of(2015, Month.MAY, 30, 23, 59).toLocalDate(),
                 USER_ID);
         MATCHER.assertCollectionEquals(getBetweenMeals, Arrays.asList(MEAL1, MEAL2, MEAL3));
     }
