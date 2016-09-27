@@ -7,7 +7,7 @@ package ru.javawebinar.topjava.model;
 public class BaseEntity {
     public static final int START_SEQ = 100000;
 
-    protected Integer id = 1;
+    protected Integer id;
 
     public BaseEntity() {
     }

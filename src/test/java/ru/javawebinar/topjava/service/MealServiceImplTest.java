@@ -10,6 +10,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.DbPopulator;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
@@ -80,8 +81,8 @@ public class MealServiceImplTest {
     @Test
     public void testGetBetweenDateTimes() throws Exception {
         Collection<Meal> getBetweenMeals = mealService.getBetweenDates(
-                LocalDateTime.of(2015, Month.MAY, 30, 0, 0).toLocalDate(),
-                LocalDateTime.of(2015, Month.MAY, 30, 23, 59, 59).toLocalDate(),
+                LocalDate.of(2015, Month.MAY, 30),
+                LocalDate.of(2015, Month.MAY, 30),
                 USER_ID);
         MATCHER.assertCollectionEquals(getBetweenMeals, Arrays.asList(MEAL1, MEAL2, MEAL3));
     }
