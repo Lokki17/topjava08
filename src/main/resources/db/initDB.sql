@@ -20,7 +20,7 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 CREATE TABLE meals
 (
   id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-  user_id     INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE ,
+  user_id     INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   date_time   TIMESTAMP DEFAULT now(),
   description VARCHAR NOT NULL,
   calories    INTEGER DEFAULT 2000 NOT NULL
