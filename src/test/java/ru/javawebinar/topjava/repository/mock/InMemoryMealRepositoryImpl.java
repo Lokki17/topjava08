@@ -22,7 +22,6 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
  * 15.09.2015.
  */
 @Repository
-@ContextConfiguration("")
 public class InMemoryMealRepositoryImpl implements MealRepository {
 
     private static final Comparator<Meal> MEAL_COMPARATOR = Comparator.comparing(Meal::getDateTime).reversed();
