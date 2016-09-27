@@ -2,6 +2,7 @@ package ru.javawebinar.topjava;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.javawebinar.topjava.repository.mock.InMemoryMealRepositoryImpl;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
@@ -25,6 +26,9 @@ public class SpringMain {
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(UserTestData.USER);
             System.out.println();
+            InMemoryMealRepositoryImpl repositoryMeal = appCtx.getBean(InMemoryMealRepositoryImpl.class);
+
+            System.out.println(repositoryMeal.getAll(UserTestData.USER_ID));
 
             MealRestController mealController = appCtx.getBean(MealRestController.class);
             List<MealWithExceed> filteredMealsWithExceeded =
