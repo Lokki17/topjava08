@@ -31,13 +31,13 @@ public class JpaMealRepositoryImpl implements MealRepository {
         meal.setUser(savedUser);
         if (meal.isNew()){
             em.persist(meal);
-            return meal;
         } else {
             if (get(meal.getId(), userId) == null){
                 return null;
             }
-            return em.merge(meal);
+            em.merge(meal);
         }
+        return meal;
     }
 
     @Override
