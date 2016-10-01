@@ -11,10 +11,10 @@ import java.time.LocalTime;
  */
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime"),
+        @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
         @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
         @NamedQuery(name = Meal.FILTERED, query = "SELECT m FROM Meal m WHERE m.user.id=:userId AND " +
-                "m.dateTime>=:startDate AND m.dateTime<=:endDate ORDER BY m.dateTime")
+                "m.dateTime>=:startDate AND m.dateTime<=:endDate ORDER BY m.dateTime DESC")
 })
 @Entity
 @Table(name = "meals")
@@ -22,8 +22,8 @@ public class Meal extends BaseEntity {
 
     public static final String DELETE = "Meal.delete";
     public static final String GET = "Meal.get";
-    public static final String ALL_SORTED = "Meal.delete";
-    public static final String FILTERED = "Meal.delete";
+    public static final String ALL_SORTED = "Meal.sorted";
+    public static final String FILTERED = "Meal.filtered";
 
     @Column(name = "date_time")
     private LocalDateTime dateTime;
