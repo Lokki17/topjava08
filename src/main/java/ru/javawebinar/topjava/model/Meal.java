@@ -1,6 +1,8 @@
 package ru.javawebinar.topjava.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,7 +19,10 @@ import java.time.LocalTime;
                 "m.dateTime>=:startDate AND m.dateTime<=:endDate ORDER BY m.dateTime DESC")
 })
 @Entity
-@Table(name = "meals")
+@Table(name = "meals", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "id", name = "meals_pkey"),
+        @UniqueConstraint(columnNames = {"id", "date_time"}, name = "meals_unique_user_datetime_idx")
+})
 public class Meal extends BaseEntity {
 
     public static final String DELETE = "Meal.delete";
@@ -25,17 +30,21 @@ public class Meal extends BaseEntity {
     public static final String ALL_SORTED = "Meal.sorted";
     public static final String FILTERED = "Meal.filtered";
 
-    @Column(name = "date_time")
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP NOT NULL")
     private LocalDateTime dateTime;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT NOT NULL")
+    @NotNull
     private String description;
 
-    @Column(name = "calories")
+    @Column(name = "calories", columnDefinition = "INT NOT NULL")
+    @NotNull
+    @Digits(integer = 4, fraction = 0)
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotNull
     private User user;
 
     public Meal() {
