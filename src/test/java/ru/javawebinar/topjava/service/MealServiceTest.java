@@ -3,7 +3,12 @@ package ru.javawebinar.topjava.service;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,9 +33,18 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+private static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);
 
     @Rule
-    public TimingRule rule = new TimingRule();
+    public TestRule rule = (base, description) -> new Statement() {
+        @Override
+        public void evaluate() throws Throwable {
+            long startTime = System.nanoTime();
+            base.evaluate();
+            long endTime = System.nanoTime();
+            LOG.info("The time of executing test is {} ms", (endTime - startTime)/1000000);
+        }
+    };
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
