@@ -1,27 +1,11 @@
 package ru.javawebinar.topjava.service.jpa;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.javawebinar.topjava.Profiles;
-import ru.javawebinar.topjava.model.Role;
-import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.AbstractUserServiceTest;
-import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
-import static ru.javawebinar.topjava.UserTestData.*;
 
 @ActiveProfiles({Profiles.ACTIVE_DB, Profiles.JPA})
 public class JpaUserServiceTest extends AbstractUserServiceTest{
