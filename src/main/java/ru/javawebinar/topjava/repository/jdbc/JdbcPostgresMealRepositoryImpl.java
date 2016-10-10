@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Profile("hsqldb")
+@Profile("postgres")
 @Repository
 public class JdbcPostgresMealRepositoryImpl extends JdbcMealRepositoryImpl {
     public JdbcPostgresMealRepositoryImpl(DataSource dataSource) {
