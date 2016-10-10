@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.service.datajpa;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ActiveProfiles;
+import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
@@ -12,6 +13,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.MEAL1;
 import static ru.javawebinar.topjava.UserTestData.MATCHER;
@@ -74,10 +76,11 @@ public class DatajpaUserServiceTest extends AbstractUserServiceTest {
 
     @Test
     public void testGetWithUser() {
-        USER.setMeals(Arrays.asList(MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6));
-
+        List<Meal> testMeals = Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
+        USER.setMeals(testMeals);
         service.save(USER);
-        User actual = service.get(USER_ID);
-        MATCHER.assertEquals(USER, actual);
+        User actual = service.getWithMeal(USER_ID);
+        MealTestData.MATCHER.assertCollectionEquals(testMeals, actual.getMeals());
+        UserTestData.MATCHER.assertEquals(USER, actual);
     }
 }

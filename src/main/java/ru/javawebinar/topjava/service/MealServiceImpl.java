@@ -66,6 +66,10 @@ public class MealServiceImpl implements MealService {
     public Meal getWithUser(int id, int userId) {
         User user = ExceptionUtil.checkNotFoundWithId(userRepository.get(userId), userId);
         Meal meal = ExceptionUtil.checkNotFoundWithId(repository.get(id, userId), id);
+        System.out.println("*****************************************************");
+        System.out.println(user);
+        System.out.println(meal);
+        System.out.println("*****************************************************");
         meal.setUser(user);
         return meal;
     }
