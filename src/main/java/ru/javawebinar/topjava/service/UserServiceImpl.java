@@ -6,11 +6,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
+import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private MealRepository mealRepository;
 
     @CacheEvict(value = "users", allEntries = true)
     @Override
@@ -67,7 +73,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User getWithMeal(int id) {
-        return repository.getWithMeal(id);
+        User user = ExceptionUtil.checkNotFoundWithId(repository.get(id), id);
+        Collection<Meal> meal = ExceptionUtil.checkNotFoundWithId(mealRepository.getAll(id), id);
+        user.setMeals(meal);
+        return user;
     }
 }

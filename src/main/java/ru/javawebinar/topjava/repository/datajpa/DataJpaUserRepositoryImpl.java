@@ -42,9 +42,4 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         return crudRepository.findAll();
     }
-
-    @Override
-    public User getWithMeal(int id) {
-        return null;
-    }
 }

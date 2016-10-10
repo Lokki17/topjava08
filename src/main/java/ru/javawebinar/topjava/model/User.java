@@ -8,10 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: gkislin
@@ -49,15 +46,15 @@ public class User extends NamedEntity {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     @Column(name = "calories_per_day", columnDefinition = "default 2000")
     @Digits(fraction = 0, integer = 4)
     private int caloriesPerDay = MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Meal> meals;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Collection<Meal> meals;
 
     public User() {
     }
@@ -123,7 +120,13 @@ public class User extends NamedEntity {
         return password;
     }
 
+    public Collection<Meal> getMeals() {
+        return meals;
+    }
 
+    public void setMeals(Collection<Meal> meals) {
+        this.meals = meals;
+    }
 
     @Override
     public String toString() {

@@ -43,7 +43,7 @@ public class Meal extends BaseEntity {
     @Range(min = 10, max = 5000)
     protected int calories;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

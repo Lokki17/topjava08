@@ -62,9 +62,8 @@ public class DatajpaMealServiceTest extends AbstractMealServiceTest{
     @Test
     public void testGetWithUser(){
         MEAL1.setUser(USER);
-        Meal mealTest = MEAL1;
-        service.save(mealTest, USER_ID);
+        service.save(MEAL1, USER_ID);
         Meal actual = service.get(MEAL1.getId(), USER_ID);
-        MATCHER.assertEquals(mealTest, actual);
+        MATCHER.assertEquals(MEAL1, actual);
     }
 }

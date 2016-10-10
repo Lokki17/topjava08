@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,9 @@ public class MealServiceImpl implements MealService {
 
     @Autowired
     private MealRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Meal get(int id, int userId) {
@@ -57,8 +62,12 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
+    @Transactional
     public Meal getWithUser(int id, int userId) {
-        return repository.getWithUser(id, userId);
+        User user = ExceptionUtil.checkNotFoundWithId(userRepository.get(userId), userId);
+        Meal meal = ExceptionUtil.checkNotFoundWithId(repository.get(id, userId), id);
+        meal.setUser(user);
+        return meal;
     }
 
 }
