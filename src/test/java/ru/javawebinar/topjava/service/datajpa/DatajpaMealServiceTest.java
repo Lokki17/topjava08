@@ -3,7 +3,13 @@ package ru.javawebinar.topjava.service.datajpa;
 import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.AbstractMealServiceTest;
+
+import static ru.javawebinar.topjava.MealTestData.MEAL1;
+import static ru.javawebinar.topjava.MealTestData.MATCHER;
+import static ru.javawebinar.topjava.UserTestData.USER;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ActiveProfiles({Profiles.ACTIVE_DB, Profiles.DATAJPA})
 public class DatajpaMealServiceTest extends AbstractMealServiceTest{
@@ -51,5 +57,14 @@ public class DatajpaMealServiceTest extends AbstractMealServiceTest{
     @Test
     public void testGetBetween() throws Exception {
         super.testGetBetween();
+    }
+
+    @Test
+    public void testGetWithUser(){
+        MEAL1.setUser(USER);
+        Meal mealTest = MEAL1;
+        service.save(mealTest, USER_ID);
+        Meal actual = service.get(MEAL1.getId(), USER_ID);
+        MATCHER.assertEquals(mealTest, actual);
     }
 }

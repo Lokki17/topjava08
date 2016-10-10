@@ -16,22 +16,28 @@ import java.util.List;
  */
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
-    @Query("SELECT m FROM Meal m WHERE m.user.id =:userId ORDER BY m.dateTime DESC")
-    List<Meal> getAll(@Param("userId") int userId);
+    //@Query("SELECT m FROM Meal m WHERE m.user.id =:userId ORDER BY m.dateTime DESC")
+    List<Meal> findByUser_IdOrderByDateTimeDesc(int userId);
 
-    @Transactional
+    //@Transactional
     @Modifying
-    @Query("DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
-    int delete (@Param("id") int id, @Param("userId") int userId);
+    //@Query("DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
+    int deleteByIdAndUser_Id(int id, int userId);
+    //int delete (@Param("id") int id, @Param("userId") int userId);
 
-    @Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
-    Meal get (@Param("id") int id, @Param("userId") int userId);
+    //@Query("SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId")
+    //Meal get (@Param("id") int id, @Param("userId") int userId);
+    Meal findByIdAndUser_Id(int id, int userId);
 
-    @Query("SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime>=:startDate AND m.dateTime<=:endDate ORDER BY m.dateTime DESC")
-    List<Meal> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userId);
+    //@Query("SELECT m FROM Meal m WHERE m.user.id=:userId AND m.dateTime>=:startDate AND m.dateTime<=:endDate ORDER BY m.dateTime DESC")
+    //List<Meal> getBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("userId") int userId);
+    List<Meal> findAllByUser_IdAndDateTimeGreaterThanEqualAndDateTimeLessThanEqualOrderByDateTimeDesc(int userId, LocalDateTime startDate, LocalDateTime endDate);
 
     @Override
-    @Transactional
+    //@Transactional
     Meal save(Meal meal);
+
+    @Query("SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.id=:id AND m.user=:userId")
+    Meal getWithUser(@Param("id") int id, @Param("userId") int userId);
 
 }

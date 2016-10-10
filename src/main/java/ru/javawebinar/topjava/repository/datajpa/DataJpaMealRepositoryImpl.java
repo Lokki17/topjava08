@@ -7,7 +7,9 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import javax.transaction.NotSupportedException;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     public Meal save(Meal meal, int userId) {
         meal.setUser(userRepository.getOne(userId));
         if (!meal.isNew()) {
-            Meal savedMeal = crudRepository.get(meal.getId(), userId);
+            Meal savedMeal = crudRepository.findByIdAndUser_Id(meal.getId(), userId);
             ExceptionUtil.checkNotFoundWithId(savedMeal, meal.getId());
         }
         return crudRepository.save(meal);
@@ -35,21 +37,26 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        return crudRepository.delete(id, userId) != 0;
+        return crudRepository.deleteByIdAndUser_Id(id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return crudRepository.get(id, userId);
+        return crudRepository.findByIdAndUser_Id(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.getAll(userId);
+        return crudRepository.findByUser_IdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return crudRepository.getBetween(startDate, endDate, userId);
+        return crudRepository.findAllByUser_IdAndDateTimeGreaterThanEqualAndDateTimeLessThanEqualOrderByDateTimeDesc(userId, startDate, endDate);
+    }
+
+    @Override
+    public Meal getWithUser(int id, int userId) {
+        return crudRepository.getWithUser(id, userId);
     }
 }
