@@ -7,7 +7,7 @@ import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.service.AbstractUserServiceTest;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-@ActiveProfiles({Profiles.ACTIVE_DB, Profiles.ACTIVE_REPOSITORY})
+@ActiveProfiles({Profiles.ACTIVE_DB, Profiles.DATAJPA})
 public class DatajpaUserServiceTest extends AbstractUserServiceTest {
 
     @Test

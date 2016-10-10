@@ -2,11 +2,9 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.support.AbstractRefreshableConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.env.AbstractEnvironment;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.TimeUtil;
@@ -28,11 +26,10 @@ import java.util.Objects;
  * User: gkislin
  * Date: 19.08.2014
  */
-@Profile(value = {Profiles.POSTGRES, Profiles.DATAJPA})
 public class MealServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
 
-    private ClassPathXmlApplicationContext springContext;
+    private AbstractRefreshableConfigApplicationContext springContext;
     private MealRestController mealController;
 
     @Override
@@ -40,7 +37,7 @@ public class MealServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         springContext = new ClassPathXmlApplicationContext();
-        springContext.getEnvironment().setActiveProfiles(Profiles.POSTGRES, Profiles.DATAJPA);
+        springContext.getEnvironment().setActiveProfiles(Profiles.HSQLDB, Profiles.JDBC);
         springContext.setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
         springContext.refresh();
         mealController = springContext.getBean(MealRestController.class);
