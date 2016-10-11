@@ -26,6 +26,7 @@ public class JdbcHsqldbMealRepositoryImpl extends JdbcMealRepositoryImpl {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
+
         return jdbcTemplate.query(
                 "SELECT * FROM meals WHERE user_id=?  AND date_time BETWEEN ? AND ? ORDER BY date_time DESC",
                 ROW_MAPPER, userId, startDate.format(TimeUtil.DATE_TIME_HSQLDB_FORMATTER), endDate.format(TimeUtil.DATE_TIME_HSQLDB_FORMATTER));
@@ -45,9 +46,9 @@ public class JdbcHsqldbMealRepositoryImpl extends JdbcMealRepositoryImpl {
             meal.setId(newId.intValue());
         } else {
             if (namedParameterJdbcTemplate.update("" +
-                            "UPDATE meals " +
-                            "   SET description=:description, calories=:calories, date_time=:date_time " +
-                            " WHERE id=:id AND user_id=:user_id"
+                    "UPDATE meals " +
+                    "   SET description=:description, calories=:calories, date_time=:date_time " +
+                    " WHERE id=:id AND user_id=:user_id"
                     , map) == 0) {
                 return null;
             }
