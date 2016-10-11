@@ -5,11 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.ExceptionUtil;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import javax.transaction.NotSupportedException;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 /**
