@@ -20,7 +20,7 @@ public class JdbcPostgresMealRepositoryImpl extends JdbcMealRepositoryImpl {
     }
 
     @Override
-    public Object getRightDate(LocalDateTime dateTime) {
+    public LocalDateTime getRightDate(LocalDateTime dateTime) {
         return dateTime;
     }
 

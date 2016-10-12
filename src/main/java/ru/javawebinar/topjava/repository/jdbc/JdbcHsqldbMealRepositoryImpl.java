@@ -20,9 +20,7 @@ public class JdbcHsqldbMealRepositoryImpl extends JdbcMealRepositoryImpl {
     }
 
     @Override
-    public Object getRightDate(LocalDateTime dateTime) {
+    public Date getRightDate(LocalDateTime dateTime) {
         return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
-
-
 }

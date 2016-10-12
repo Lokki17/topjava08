@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @Repository
-public abstract class JdbcMealRepositoryImpl implements MealRepository {
+public abstract class JdbcMealRepositoryImpl<T>  implements MealRepository {
 
     static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
@@ -92,6 +92,6 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
 
     }
 
-    public abstract Object getRightDate(LocalDateTime dateTime);
+    public abstract T getRightDate(LocalDateTime dateTime);
 
 }
