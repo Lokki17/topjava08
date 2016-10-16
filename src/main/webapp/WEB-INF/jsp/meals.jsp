@@ -6,15 +6,14 @@
 <html>
 <head>
     <title>Meal list</title>
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h2><a href="${pageContext.request.contextPath}/"><frm:message key="app.home"/></a></h2>
+    <h2><a href="/"><frm:message key="app.home"/></a></h2>
     <h3><frm:message key="meals.title"/></h3>
-    <form method="post" action="meals?action=filter">
+    <form method="get" action="filter">
         <dl>
             <dt><frm:message key="meal.fromDate"/></dt>
             <dd><input type="date" name="startDate" value="${startDate}"></dd>
@@ -34,7 +33,7 @@
         <button type="submit"><frm:message key="meals.filter"/></button>
     </form>
     <hr>
-    <a href="meals?action=create"><frm:message key="meals.add"/></a>
+    <a href="${pageContext.request.contextPath}/meal/add"><frm:message key="meals.add"/></a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -56,8 +55,10 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals?action=update&id=${meal.id}"><frm:message key="meals.update"/></a></td>
-                <td><a href="meals?action=delete&id=${meal.id}"><frm:message key="meals.delete"/></a></td>
+                <%--<td><a href="meals?action=update&id=${meal.id}"><frm:message key="meals.update"/></a></td>--%>
+                <td><a href="${pageContext.request.contextPath}/meal/${meal.id}"><frm:message key="meals.update"/></a></td>
+                <%--<td><a href="meals?action=delete&id=${meal.id}"><frm:message key="meals.delete"/></a></td>--%>
+                <td><a href="${pageContext.request.contextPath}/delete/${meal.id}"><frm:message key="meals.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
