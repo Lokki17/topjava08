@@ -17,7 +17,6 @@ import java.time.LocalTime;
 import java.util.Map;
 
 @Controller
-//@RequestMapping(value = "/meals")
 public class RootMealController {
     @Autowired
     private MealService service;
