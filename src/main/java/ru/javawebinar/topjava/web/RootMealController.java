@@ -28,13 +28,13 @@ public class RootMealController {
         return "/meals";
     }
 
-    @RequestMapping(value = "meal/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/meal/{id}", method = RequestMethod.GET)
     public String mealUpdate(@PathVariable Integer id, Model model) {
         model.addAttribute("meal", service.get(id, AuthorizedUser.id));
         return "/meal";
     }
 
-    @RequestMapping(value = "meal/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/meal/add", method = RequestMethod.GET)
     public String mealAdd(Model model) {
         model.addAttribute("meal", new Meal());
         return "/meal";
@@ -46,13 +46,13 @@ public class RootMealController {
         return "redirect:/meals";
     }
 
-    @RequestMapping(value = {"/meals", "meal/meals"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/meals", "/meal/meals"}, method = RequestMethod.POST)
     public String mealSave(HttpServletRequest request) throws UnsupportedEncodingException {
         service.save(MealsUtil.createFromRequest(request), AuthorizedUser.id);
         return "redirect:/meals";
     }
 
-    @RequestMapping(value = "filter", method = RequestMethod.GET)
+    @RequestMapping(value = "/filter", method = RequestMethod.GET)
     public String mealFiltered(HttpServletRequest request, Model model) {
         model.addAttribute("meals", MealsUtil.getFilteredWithExceedFromReq(request, service, AuthorizedUser.id, AuthorizedUser.getCaloriesPerDay()));
         return "meals";
