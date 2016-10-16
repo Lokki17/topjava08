@@ -23,7 +23,7 @@ public class RootMealController {
     private MealService service;
 
     @RequestMapping(value = "/meals", method = RequestMethod.GET)
-    public String meals(HttpServletRequest request, Model model) {
+    public String meals(Model model) {
         model.addAttribute("meals", MealsUtil.getWithExceeded(service.getAll(AuthorizedUser.id), AuthorizedUser.getCaloriesPerDay()));
         return "/meals";
     }
@@ -54,22 +54,7 @@ public class RootMealController {
 
     @RequestMapping(value = "filter", method = RequestMethod.GET)
     public String mealFiltered(HttpServletRequest request, Model model) {
-        LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
-        LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));
-        LocalTime startTime = TimeUtil.parseLocalTime(resetParam("startTime", request));
-        LocalTime endTime = TimeUtil.parseLocalTime(resetParam("endTime", request));
-        model.addAttribute("meals", MealsUtil.getFilteredWithExceeded(
-                service.getBetweenDates(startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, AuthorizedUser.id),
-                startTime != null ? startTime : LocalTime.MIN,
-                endTime != null ? endTime : LocalTime.MAX,
-                AuthorizedUser.getCaloriesPerDay()
-        ));
+        model.addAttribute("meals", MealsUtil.getFilteredWithExceedFromReq(request, service, AuthorizedUser.id, AuthorizedUser.getCaloriesPerDay()));
         return "meals";
-    }
-
-    private static String resetParam(String param, HttpServletRequest request) {
-        String value = request.getParameter(param);
-        request.setAttribute(param, value);
-        return value;
     }
 }

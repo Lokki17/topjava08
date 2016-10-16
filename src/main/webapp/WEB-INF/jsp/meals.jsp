@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h2><a href="/"><frm:message key="app.home"/></a></h2>
+    <h2><a href="${pageContext.request.contextPath}/"><fmt:message key="app.home"/></a></h2>
     <h3><frm:message key="meals.title"/></h3>
     <form method="get" action="filter">
         <dl>

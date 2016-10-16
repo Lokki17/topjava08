@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
 import javax.servlet.ServletRequest;
@@ -64,6 +65,19 @@ public class MealsUtil {
             meal.setId(Integer.valueOf(request.getParameter("id")));
         }
         return meal;
+    }
+
+    public static List<MealWithExceed> getFilteredWithExceedFromReq(HttpServletRequest request, MealService service, int userId, int calories) {
+
+        LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
+        LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));
+        LocalTime startTime = TimeUtil.parseLocalTime(resetParam("startTime", request));
+        LocalTime endTime = TimeUtil.parseLocalTime(resetParam("endTime", request));
+        return MealsUtil.getFilteredWithExceeded(
+                service.getBetweenDates(startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId),
+                startTime != null ? startTime : LocalTime.MIN,
+                endTime != null ? endTime : LocalTime.MAX,
+                calories);
     }
 
     private static String resetParam(String param, HttpServletRequest request) {
