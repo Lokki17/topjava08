@@ -1,9 +1,14 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,4 +54,42 @@ public class MealsUtil {
     public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
+
+    public static Meal createFromRequest(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        final Meal meal = new Meal(
+                LocalDateTime.parse(request.getParameter("dateTime")),
+                request.getParameter("description"),
+                Integer.valueOf(request.getParameter("calories")));
+        if (!request.getParameter("id").isEmpty()) {
+            meal.setId(Integer.valueOf(request.getParameter("id")));
+        }
+        return meal;
+    }
+
+    public static List<MealWithExceed> getFilteredWithExceedFromReq(HttpServletRequest request, MealService service, int userId, int calories) {
+
+        LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
+        LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));
+        LocalTime startTime = TimeUtil.parseLocalTime(resetParam("startTime", request));
+        LocalTime endTime = TimeUtil.parseLocalTime(resetParam("endTime", request));
+        return MealsUtil.getFilteredWithExceeded(
+                service.getBetweenDates(startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId),
+                startTime != null ? startTime : LocalTime.MIN,
+                endTime != null ? endTime : LocalTime.MAX,
+                calories);
+    }
+
+    private static String resetParam(String param, HttpServletRequest request) {
+        String value = request.getParameter(param);
+        request.setAttribute(param, value);
+        return value;
+    }
+
+/*    public static List<Meal> getFiltered(HttpServletRequest request) {
+        LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
+        LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));
+        LocalTime startTime = TimeUtil.parseLocalTime(resetParam("startTime", request));
+        LocalTime endTime = TimeUtil.parseLocalTime(resetParam("endTime", request));
+    }*/
 }
