@@ -36,7 +36,7 @@ public class RootMealController {
     @RequestMapping(value = "/meal/add", method = RequestMethod.GET)
     public String mealAdd(Model model) {
         model.addAttribute("meal", new Meal());
-        return "/meal";
+        return "/meals";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
