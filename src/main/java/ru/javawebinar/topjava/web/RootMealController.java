@@ -54,6 +54,6 @@ public class RootMealController {
     @RequestMapping(value = "/filter", method = RequestMethod.GET)
     public String mealFiltered(HttpServletRequest request, Model model) {
         model.addAttribute("meals", MealsUtil.getFilteredWithExceedFromReq(request, service, AuthorizedUser.id, AuthorizedUser.getCaloriesPerDay()));
-        return "meals";
+        return "/meals";
     }
 }
