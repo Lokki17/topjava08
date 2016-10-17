@@ -25,14 +25,15 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     User save(User user);
 
     @Override
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = ?1")
     User findOne(Integer id);
 
     @Override
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.roles ORDER BY u.name, u.email")
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.meals LEFT JOIN FETCH u.roles ORDER BY u.name, u.email")
     List<User> findAll();
 
     User getByEmail(String email);
 
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.meals WHERE u.id = ?1")
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.meals LEFT JOIN FETCH u.roles WHERE u.id = ?1")
     User getWithMeals(int id);
 }
