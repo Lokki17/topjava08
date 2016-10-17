@@ -26,11 +26,21 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+@NamedEntityGraph(name = "user.graph", attributeNodes = {
+        @NamedAttributeNode(value = "email"),
+        @NamedAttributeNode(value = "password"),
+        @NamedAttributeNode(value = "enabled"),
+        @NamedAttributeNode(value = "email"),
+        @NamedAttributeNode(value = "roles"),
+        @NamedAttributeNode(value = "caloriesPerDay"),
+        @NamedAttributeNode(value = "meals"),
+}
+)
 public class User extends NamedEntity {
 
     public static final String DELETE = "User.delete";
     public static final String ALL_SORTED = "User.getAllSorted";
-    public static final String BY_EMAIL = "User.getByEmail";
+    public static final String BY_EMAIL = "User.registered";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
