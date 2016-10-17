@@ -32,6 +32,7 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.meals LEFT JOIN FETCH u.roles ORDER BY u.name, u.email")
     List<User> findAll();
 
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.meals LEFT JOIN FETCH u.roles WHERE u.email = ?1")
     User getByEmail(String email);
 
     @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.meals LEFT JOIN FETCH u.roles WHERE u.id = ?1")
