@@ -76,7 +76,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User get(int id) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
         User user = DataAccessUtils.singleResult(users);
-        if (user != null){
+        if (user != null) {
             user.setRoles(getRolesList(id));
         }
         return user;
@@ -101,7 +101,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         jdbcTemplate.queryForList("SELECT * FROM user_roles WHERE user_id = ?", userId).stream()
                 .forEach(map -> map.entrySet().stream()
                         .filter(entry -> entry.getKey().equals("role"))
-                .forEach(entry -> role.add(Role.valueOf(entry.getValue().toString()))));
+                        .forEach(entry -> role.add(Role.valueOf(entry.getValue().toString()))));
         return role;
     }
 }
