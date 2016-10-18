@@ -133,4 +133,28 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             this.role = role;
         }
     }
+
+/*    в @NamedEntityGraph нужны только проперти к которым нужен JOIN, остальные не нужны
+    gkislin [5:44 PM]
+    ага. и тоже хорошо бы чз константу
+    и заюзать в datajpa (edited)
+            [5:46]
+    JdbcUserRepositoryImpl:102 - тебе тут IDEA ничего не написала?
+    gkislin [5:53 PM]
+    при update- ты все роли у юзера которые пришли- потерял
+    [6:03]
+    для jdbc по прежнему entityManagerFactory не нужен
+    gkislin [6:04 PM]
+    транзакции - не делал?
+    тесты и приложение работают:)
+    кроме - при добавлении еды ссылка поплыла- http://localhost:8080/topjava/meal/meals
+    когда работаем с едой, все должно быть от meals
+    [6:09 PM]
+    если бы не работали тесты и приложение - я бы даже на проверку слать не стал
+    gkislin [6:10 PM]
+    я так сделал, проще всего
+    <base href=
+*/
 }
+
+
