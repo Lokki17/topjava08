@@ -15,7 +15,6 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import javax.sql.DataSource;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -74,8 +73,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     @Override
     public User get(int id) {
-        List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
-        User user = DataAccessUtils.singleResult(users);
+        User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id));
         if (user != null) {
             user.setRoles(getRolesList(id));
         }
@@ -84,9 +82,11 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
-        users.stream().forEach(user -> user.setRoles(getRolesList(user.getId())));
-        return DataAccessUtils.singleResult(users);
+        User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email));
+        if (user != null) {
+            user.setRoles(getRolesList(user.getId()));
+        }
+        return user;
     }
 
     @Override
