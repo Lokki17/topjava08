@@ -51,18 +51,19 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 .addValue("password", user.getPassword())
                 .addValue("registered", user.getRegistered())
                 .addValue("enabled", user.isEnabled())
-                .addValue("caloriesPerDay", user.getCaloriesPerDay());
+                .addValue("caloriesPerDay", user.getCaloriesPerDay())
+                .addValue("roles", user.getRoles());
 
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
-            user.setRoles(getRolesList(newKey.intValue()));
+            //user.setRoles(getRolesList(newKey.intValue()));
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
-            user.setRoles(getRolesList(user.getId()));
         }
+        user.setRoles(getRolesList(user.getId()));
         return user;
     }
 

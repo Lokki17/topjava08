@@ -27,13 +27,8 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 @NamedEntityGraph(name = "user.graph", attributeNodes = {
-        @NamedAttributeNode(value = "email"),
-        @NamedAttributeNode(value = "password"),
-        @NamedAttributeNode(value = "enabled"),
-        @NamedAttributeNode(value = "email"),
         @NamedAttributeNode(value = "roles"),
-        @NamedAttributeNode(value = "caloriesPerDay"),
-        @NamedAttributeNode(value = "meals"),
+        @NamedAttributeNode(value = "meals")
 }
 )
 public class User extends NamedEntity {

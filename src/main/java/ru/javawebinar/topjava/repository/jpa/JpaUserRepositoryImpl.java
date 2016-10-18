@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +48,7 @@ public class JpaUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         EntityGraph graph = em.getEntityGraph("user.graph");
-        Map<String, Object> map = new HashMap<>();
-        map.put("javax.persistence.fetchgraph", graph);
-
+        Map<String, Object> map = Collections.singletonMap("javax.persistence.fetchgraph", graph);
         return em.find(User.class, id, map);
     }
 
