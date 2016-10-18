@@ -55,9 +55,7 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <%--<td><a href="meals?action=update&id=${meal.id}"><frm:message key="meals.update"/></a></td>--%>
                 <td><a href="meal/${meal.id}"><frm:message key="meals.update"/></a></td>
-                <%--<td><a href="meals?action=delete&id=${meal.id}"><frm:message key="meals.delete"/></a></td>--%>
                 <td><a href="${pageContext.request.contextPath}/delete/${meal.id}"><frm:message key="meals.delete"/></a></td>
             </tr>
         </c:forEach>

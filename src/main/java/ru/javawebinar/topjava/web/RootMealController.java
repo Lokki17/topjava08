@@ -8,13 +8,9 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.util.TimeUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Map;
 
 @Controller
 public class RootMealController {
