@@ -15,6 +15,7 @@ import ru.javawebinar.topjava.repository.UserRepository;
 import javax.sql.DataSource;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,7 +27,6 @@ import java.util.Set;
 public class JdbcUserRepositoryImpl implements UserRepository {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
-    private static final BeanPropertyRowMapper<Role> ROLE_MAPPER = BeanPropertyRowMapper.newInstance(Role.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -57,10 +57,12 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
+            user.setRoles(getRolesList(newKey.intValue()));
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
+            user.setRoles(getRolesList(user.getId()));
         }
         return user;
     }
@@ -73,22 +75,33 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id);
-        return DataAccessUtils.singleResult(users);
+        User user = DataAccessUtils.singleResult(users);
+        if (user != null){
+            user.setRoles(getRolesList(id));
+        }
+        return user;
     }
 
     @Override
     public User getByEmail(String email) {
         List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email);
+        users.stream().forEach(user -> user.setRoles(getRolesList(user.getId())));
         return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
-        return jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
+        List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
+        users.forEach(user -> user.setRoles(getRolesList(user.getId())));
+        return users;
     }
 
-    private Set<Role> getRoles(int userId){
-        List<Role> roles = jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id = :userId", ROLE_MAPPER);
-        return new HashSet<Role>(roles);
+    private Set<Role> getRolesList(int userId) {
+        Set<Role> role = new HashSet<>();
+        jdbcTemplate.queryForList("SELECT * FROM user_roles WHERE user_id = ?", userId).stream()
+                .forEach(map -> map.entrySet().stream()
+                        .filter(entry -> entry.getKey().equals("role"))
+                .forEach(entry -> role.add(Role.valueOf(entry.getValue().toString()))));
+        return role;
     }
 }
