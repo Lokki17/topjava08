@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Meal</title>
+    <title><frm:message key="meal.title"/></title>
 </head>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>

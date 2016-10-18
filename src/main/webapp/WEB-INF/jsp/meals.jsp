@@ -5,7 +5,7 @@
 <%@ taglib prefix="frm" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Meal list</title>
+    <title><frm:message key="meals.title"/></title>
 </head>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
