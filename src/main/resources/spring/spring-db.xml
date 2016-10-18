@@ -45,6 +45,7 @@
         </property>
     </bean>
 
+    <tx:annotation-driven/>
 
     <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>
 
@@ -122,8 +123,6 @@
             </property>
         </bean>
 -->
-
-        <tx:annotation-driven/>
 
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
