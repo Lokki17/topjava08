@@ -67,25 +67,6 @@ public class MealsUtil {
         return meal;
     }
 
-    public static List<MealWithExceed> getFilteredWithExceedFromReq(HttpServletRequest request, MealService service, int userId, int calories) {
-
-        LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
-        LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));
-        LocalTime startTime = TimeUtil.parseLocalTime(resetParam("startTime", request));
-        LocalTime endTime = TimeUtil.parseLocalTime(resetParam("endTime", request));
-        return MealsUtil.getFilteredWithExceeded(
-                service.getBetweenDates(startDate != null ? startDate : TimeUtil.MIN_DATE, endDate != null ? endDate : TimeUtil.MAX_DATE, userId),
-                startTime != null ? startTime : LocalTime.MIN,
-                endTime != null ? endTime : LocalTime.MAX,
-                calories);
-    }
-
-    private static String resetParam(String param, HttpServletRequest request) {
-        String value = request.getParameter(param);
-        request.setAttribute(param, value);
-        return value;
-    }
-
 /*    public static List<Meal> getFiltered(HttpServletRequest request) {
         LocalDate startDate = TimeUtil.parseLocalDate(resetParam("startDate", request));
         LocalDate endDate = TimeUtil.parseLocalDate(resetParam("endDate", request));

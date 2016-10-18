@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -13,9 +14,8 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.sql.DataSource;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * User: gkislin
@@ -26,6 +26,7 @@ import java.util.Set;
 public class JdbcUserRepositoryImpl implements UserRepository {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
+    private static final RowMapper<UserRole> ROLE_MAPPER = BeanPropertyRowMapper.newInstance(UserRole.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -57,13 +58,12 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
-            //user.setRoles(getRolesList(newKey.intValue()));
         } else {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
         }
-        user.setRoles(getRolesList(user.getId()));
+        setRoles(user, getUsersRoles());
         return user;
     }
 
@@ -76,7 +76,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User get(int id) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id));
         if (user != null) {
-            user.setRoles(getRolesList(id));
+            setRoles(user, getUsersRoles());
         }
         return user;
     }
@@ -85,7 +85,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User getByEmail(String email) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email));
         if (user != null) {
-            user.setRoles(getRolesList(user.getId()));
+            setRoles(user, getUsersRoles());
         }
         return user;
     }
@@ -93,16 +93,44 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        users.forEach(user -> user.setRoles(getRolesList(user.getId())));
+        List<UserRole> userRoles = getUsersRoles();
+        users.forEach(user -> setRoles(user, userRoles));
         return users;
     }
 
-    private Set<Role> getRolesList(int userId) {
-        Set<Role> role = new HashSet<>();
-        jdbcTemplate.queryForList("SELECT * FROM user_roles WHERE user_id = ?", userId).stream()
-                .forEach(map -> map.entrySet().stream()
-                        .filter(entry -> entry.getKey().equals("role"))
-                        .forEach(entry -> role.add(Role.valueOf(entry.getValue().toString()))));
-        return role;
+    private User setRoles(User user, List<UserRole> userRoles){
+        user.setRoles(userRoles.stream()
+                .filter(userRole -> Objects.equals(userRole.getUserId(), user.getId()))
+                .map(u -> Role.valueOf(u.getRole()))
+                .collect(Collectors.toSet()));
+        return user;
+    }
+
+    private List<UserRole> getUsersRoles(){
+        return jdbcTemplate.query("SELECT role, user_id FROM user_roles", ROLE_MAPPER);
+    }
+
+    private static class UserRole {
+        Integer user_Id;
+        String role;
+
+        public UserRole() {
+        }
+
+        public Integer getUserId() {
+            return user_Id;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setUserId(Integer userId) {
+            this.user_Id = userId;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
     }
 }
