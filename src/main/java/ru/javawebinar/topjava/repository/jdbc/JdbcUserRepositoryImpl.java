@@ -14,6 +14,8 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,7 +65,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
         }
-        setUserRoles(user, getUserRoles(user.getId()));
+        user.setRoles(getUserRoles(user.getId()));
         return user;
     }
 
@@ -76,7 +78,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User get(int id) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id));
         if (user != null) {
-            setUserRoles(user, getUserRoles(user.getId()));
+            user.setRoles(getUserRoles(user.getId()));
         }
         return user;
     }
@@ -85,7 +87,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User getByEmail(String email) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email));
         if (user != null) {
-            setUserRoles(user, getUserRoles(user.getId()));
+            user.setRoles(getUserRoles(user.getId()));
         }
         return user;
     }
@@ -97,7 +99,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         return users;
     }
 
-    private User setRoles(User user, List<UserRole> userRoles){
+    private User setRoles(User user, List<UserRole> userRoles) {
         user.setRoles(userRoles.stream()
                 .filter(userRole -> Objects.equals(userRole.getUserId(), user.getId()))
                 .map(u -> Role.valueOf(u.getRole()))
@@ -105,19 +107,15 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    private User setUserRoles(User user, List<UserRole> userRoles){
-        user.setRoles(new HashSet<>(userRoles.stream()
-                .map(u -> Role.valueOf(u.getRole()))
-                .collect(Collectors.toSet())));
-        return user;
-    }
-
-    private List<UserRole> getUsersRoles(){
+    private List<UserRole> getUsersRoles() {
         return jdbcTemplate.query("SELECT role, user_id FROM user_roles", ROLE_MAPPER);
     }
 
-    private List<UserRole> getUserRoles(int userId){
-        return jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?", ROLE_MAPPER, userId);
+    private Set<Role> getUserRoles(int userId) {
+        List<String> getedRoles = jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?", (rs, rowNum) -> {
+            return rs.getString(2);
+        }, userId);
+        return getedRoles.stream().map(Role::valueOf).collect(Collectors.toSet());
     }
 
     private static class UserRole {
