@@ -177,11 +177,6 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             [5:46]
     JdbcUserRepositoryImpl:102 - тебе тут IDEA ничего не написала?
     gkislin [5:53 PM]
-    при update- ты все роли у юзера которые пришли- потерял
-
-    gkislin [6:04 PM]
-    транзакции - не делал?
-    тесты и приложение работают:)
 
 */
 }
