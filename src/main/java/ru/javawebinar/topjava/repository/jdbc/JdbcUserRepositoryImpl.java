@@ -156,10 +156,6 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     транзакции - не делал?
     тесты и приложение работают:)
 
-    когда работаем с едой, все должно быть от meals
-    gkislin [6:10 PM]
-    я так сделал, проще всего
-    <base href=
 */
 }
 
