@@ -60,6 +60,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
+            insertRoles(user);
         } else {
             deleteRoles(user.getId());
             insertRoles(user);
@@ -67,7 +68,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
         }
-        user.setRoles(getUserRoles(user.getId()));
+        //user.setRoles(getUserRoles(user.getId()));
         return user;
     }
 
@@ -97,19 +98,30 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        List<UserRole> usersRoles = getUsersRoles();
-        users.forEach(user -> setRoles(user, usersRoles));
+        Map<Integer, Set<Role>> rolesMap = getRolesMap(getUsersRoles());
+        users.forEach(user -> user.setRoles(rolesMap.get(user.getId())));
         return users;
     }
 
-    private User setRoles(User user, List<UserRole> userRoles) {
+    private Map<Integer, Set<Role>> getRolesMap(List<UserRole> usersRoles){
+        Map<Integer, Set<Role>> m = new HashMap<>();
+        usersRoles.stream()
+                .forEach(u -> m.merge(u.getUserId(),
+                        new HashSet<>(Collections.singletonList(Role.valueOf(u.getRole()))),
+                        (a, b) -> {a.add(Role.valueOf(u.getRole()));
+                            return a;
+                        }));
+        return m;
+    }
+
+/*    private User setRoles(User user, List<UserRole> userRoles) {
 
         user.setRoles(userRoles.stream()
                 .filter(userRole -> Objects.equals(userRole.getUserId(), user.getId()))
                 .map(u -> Role.valueOf(u.getRole()))
                 .collect(Collectors.toSet()));
         return user;
-    }
+    }*/
 
     private List<UserRole> getUsersRoles() {
         return jdbcTemplate.query("SELECT role, user_id FROM user_roles", ROLE_MAPPER);
