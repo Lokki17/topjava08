@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,7 +15,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,13 +55,14 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                 .addValue("password", user.getPassword())
                 .addValue("registered", user.getRegistered())
                 .addValue("enabled", user.isEnabled())
-                .addValue("caloriesPerDay", user.getCaloriesPerDay())
-                .addValue("roles", user.getRoles());
+                .addValue("caloriesPerDay", user.getCaloriesPerDay());
 
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(map);
             user.setId(newKey.intValue());
         } else {
+            deleteRoles(user.getId());
+            insertRoles(user);
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
@@ -117,6 +119,31 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             return rs.getString("role");
         }, userId);
         return getedRoles.stream().map(Role::valueOf).collect(Collectors.toSet());
+    }
+
+    private void insertRoles(final User user){
+
+        String sql = "INSERT INTO user_roles (user_id, role) VALUES (?, ?)";
+        Iterator<Role> iterator = user.getRoles().iterator();
+
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setInt(1, user.getId());
+                ps.setString(2, iterator.next().toString());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return user.getRoles().size();
+            }
+        });
+    }
+
+    private void deleteRoles(int userId){
+        jdbcTemplate.update("DELETE FROM user_roles WHERE user_id=?", userId);
     }
 
     private static class UserRole {
