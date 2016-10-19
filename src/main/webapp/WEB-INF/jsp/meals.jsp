@@ -13,7 +13,7 @@
 <section>
     <h2><a href="${pageContext.request.contextPath}/"><fmt:message key="app.home"/></a></h2>
     <h3><frm:message key="meals.title"/></h3>
-    <form method="get" action="filter">
+    <form method="get" action="${pageContext.request.contextPath}/meals/filter">
         <dl>
             <dt><frm:message key="meal.fromDate"/></dt>
             <dd><input type="date" name="startDate" value="${startDate}"></dd>
@@ -33,7 +33,7 @@
         <button type="submit"><frm:message key="meals.filter"/></button>
     </form>
     <hr>
-    <a href="meal/add"><frm:message key="meals.add"/></a>
+    <a href="meals/add"><frm:message key="meals.add"/></a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -56,7 +56,7 @@
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
                 <td><a href="meal/${meal.id}"><frm:message key="meals.update"/></a></td>
-                <td><a href="${pageContext.request.contextPath}/meal/delete/${meal.id}"><frm:message key="meals.delete"/></a></td>
+                <td><a href="${pageContext.request.contextPath}/meals/delete/${meal.id}"><frm:message key="meals.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>

@@ -64,6 +64,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
+            //namedParameterJdbcTemplate.update("UPDATE user_roles SET user_id=:id, role=:roles", map);
         }
         user.setRoles(getUserRoles(user.getId()));
         return user;
@@ -113,7 +114,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
 
     private Set<Role> getUserRoles(int userId) {
         List<String> getedRoles = jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?", (rs, rowNum) -> {
-            return rs.getString(2);
+            return rs.getString("role");
         }, userId);
         return getedRoles.stream().map(Role::valueOf).collect(Collectors.toSet());
     }
@@ -157,8 +158,6 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     тесты и приложение работают:)
     кроме - при добавлении еды ссылка поплыла- http://localhost:8080/topjava/meal/meals
     когда работаем с едой, все должно быть от meals
-    [6:09 PM]
-    если бы не работали тесты и приложение - я бы даже на проверку слать не стал
     gkislin [6:10 PM]
     я так сделал, проще всего
     <base href=
