@@ -63,7 +63,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
         }
-        setRoles(user, getUsersRoles());
+        setUserRoles(user, getUserRoles(user.getId()));
         return user;
     }
 
@@ -76,7 +76,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User get(int id) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE id=?", ROW_MAPPER, id));
         if (user != null) {
-            setRoles(user, getUsersRoles());
+            setUserRoles(user, getUserRoles(user.getId()));
         }
         return user;
     }
@@ -85,7 +85,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public User getByEmail(String email) {
         User user = DataAccessUtils.singleResult(jdbcTemplate.query("SELECT * FROM users WHERE email=?", ROW_MAPPER, email));
         if (user != null) {
-            setRoles(user, getUsersRoles());
+            setUserRoles(user, getUserRoles(user.getId()));
         }
         return user;
     }
@@ -93,8 +93,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        List<UserRole> userRoles = getUsersRoles();
-        users.forEach(user -> setRoles(user, userRoles));
+        users.forEach(user -> setRoles(user, getUsersRoles()));
         return users;
     }
 
@@ -106,8 +105,19 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         return user;
     }
 
+    private User setUserRoles(User user, List<UserRole> userRoles){
+        user.setRoles(new HashSet<>(userRoles.stream()
+                .map(u -> Role.valueOf(u.getRole()))
+                .collect(Collectors.toSet())));
+        return user;
+    }
+
     private List<UserRole> getUsersRoles(){
         return jdbcTemplate.query("SELECT role, user_id FROM user_roles", ROLE_MAPPER);
+    }
+
+    private List<UserRole> getUserRoles(int userId){
+        return jdbcTemplate.query("SELECT * FROM user_roles WHERE user_id=?", ROLE_MAPPER, userId);
     }
 
     private static class UserRole {
