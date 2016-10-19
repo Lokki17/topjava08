@@ -47,7 +47,7 @@ public class JpaUserRepositoryImpl implements UserRepository {
 
     @Override
     public User get(int id) {
-        EntityGraph graph = em.getEntityGraph("user.graph");
+        EntityGraph graph = em.getEntityGraph(User.USER_GRAPH);
         Map<String, Object> map = Collections.singletonMap("javax.persistence.fetchgraph", graph);
         return em.find(User.class, id, map);
     }
