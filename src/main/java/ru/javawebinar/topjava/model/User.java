@@ -26,7 +26,7 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
-@NamedEntityGraph(name = "user.graph", attributeNodes = {
+@NamedEntityGraph(name = User.USER_GRAPH, attributeNodes = {
         @NamedAttributeNode(value = "roles"),
         @NamedAttributeNode(value = "meals")
 }
@@ -36,6 +36,8 @@ public class User extends NamedEntity {
     public static final String DELETE = "User.delete";
     public static final String ALL_SORTED = "User.getAllSorted";
     public static final String BY_EMAIL = "User.registered";
+
+    public static final String USER_GRAPH = "user.graph";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email

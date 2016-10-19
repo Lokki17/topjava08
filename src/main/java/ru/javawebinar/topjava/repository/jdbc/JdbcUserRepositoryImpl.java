@@ -170,9 +170,7 @@ public class JdbcUserRepositoryImpl implements UserRepository {
         }
     }
 
-/*    в @NamedEntityGraph нужны только проперти к которым нужен JOIN, остальные не нужны
-    gkislin [5:44 PM]
-    ага. и тоже хорошо бы чз константу
+/*    в @NamedEntityGraph хорошо бы чз константу
     и заюзать в datajpa (edited)
             [5:46]
     JdbcUserRepositoryImpl:102 - тебе тут IDEA ничего не написала?
