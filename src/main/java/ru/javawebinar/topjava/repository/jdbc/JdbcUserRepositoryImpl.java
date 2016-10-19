@@ -66,7 +66,6 @@ public class JdbcUserRepositoryImpl implements UserRepository {
             namedParameterJdbcTemplate.update(
                     "UPDATE users SET name=:name, email=:email, password=:password, " +
                             "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map);
-            //namedParameterJdbcTemplate.update("UPDATE user_roles SET user_id=:id, role=:roles", map);
         }
         user.setRoles(getUserRoles(user.getId()));
         return user;
