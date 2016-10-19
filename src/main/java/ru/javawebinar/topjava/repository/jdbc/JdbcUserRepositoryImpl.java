@@ -97,11 +97,13 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         List<User> users = jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
-        users.forEach(user -> setRoles(user, getUsersRoles()));
+        List<UserRole> usersRoles = getUsersRoles();
+        users.forEach(user -> setRoles(user, usersRoles));
         return users;
     }
 
     private User setRoles(User user, List<UserRole> userRoles) {
+
         user.setRoles(userRoles.stream()
                 .filter(userRole -> Objects.equals(userRole.getUserId(), user.getId()))
                 .map(u -> Role.valueOf(u.getRole()))
