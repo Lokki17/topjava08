@@ -174,8 +174,6 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     и заюзать в datajpa (edited)
             [5:46]
     JdbcUserRepositoryImpl:102 - тебе тут IDEA ничего не написала?
-    gkislin [5:53 PM]
-
 */
 }
 
