@@ -151,12 +151,11 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     JdbcUserRepositoryImpl:102 - тебе тут IDEA ничего не написала?
     gkislin [5:53 PM]
     при update- ты все роли у юзера которые пришли- потерял
-    [6:03]
-    для jdbc по прежнему entityManagerFactory не нужен
+
     gkislin [6:04 PM]
     транзакции - не делал?
     тесты и приложение работают:)
-    кроме - при добавлении еды ссылка поплыла- http://localhost:8080/topjava/meal/meals
+
     когда работаем с едой, все должно быть от meals
     gkislin [6:10 PM]
     я так сделал, проще всего

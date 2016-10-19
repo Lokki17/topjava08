@@ -17,7 +17,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
-    @Autowired(required = false)
+    @Autowired()
     protected UserService service;
 
     @Autowired(required = false)
@@ -26,8 +26,9 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
         service.evictCache();
+        if (jpaUtil != null){
         jpaUtil.clear2ndLevelHibernateCache();
-    }
+    }}
         
     @Test
     public void testSave() throws Exception {
