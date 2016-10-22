@@ -49,4 +49,12 @@ public class MealsUtil {
     public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
         return new MealWithExceed(meal.getId(), meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded);
     }
+
+    public static Meal mealFromExceed(MealWithExceed m){
+        return new Meal(m.getId(), m.getDateTime(), m.getDescription(), m.getCalories());
+    }
+
+    public static List<Meal> mealsFromExceed(Collection<MealWithExceed> m){
+        return m.stream().map(MealsUtil::mealFromExceed).collect(Collectors.toList());
+    }
 }

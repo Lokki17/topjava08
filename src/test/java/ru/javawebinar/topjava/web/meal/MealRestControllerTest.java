@@ -2,20 +2,27 @@ package ru.javawebinar.topjava.web.meal;
 
 import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Test;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.time.LocalDateTime.of;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
@@ -29,6 +36,8 @@ public class MealRestControllerTest extends AbstractControllerTest {
     private static final String END_DATE = "endDate=2015-05-30";
     private static final String START_TIME = "startTime=10:00:00";
     private static final String END_TIME = "endTime=10:00:00";
+
+    private static final ModelMatcher<MealWithExceed> MATCHER_WITH_EXCEED = new ModelMatcher<>(MealWithExceed.class);
 
 
     @Test
@@ -51,10 +60,12 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetAll() throws Exception {
-        mockMvc.perform(get(REST_MEALS))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1), mealService.getAll(START_SEQ));
+        ResultActions actions = mockMvc.perform(get(REST_MEALS))
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+        Collection<Meal> result = MealsUtil.mealsFromExceed(MATCHER_WITH_EXCEED.listFromJsonAction(actions));
+        MATCHER.assertCollectionEquals(result, mealService.getAll(START_SEQ));
     }
 
     @Test
@@ -85,10 +96,10 @@ public class MealRestControllerTest extends AbstractControllerTest {
     public void testGetBetween() throws Exception {
         ResultActions actions = mockMvc.perform(get(REST_MEALS + "filter" + "?" + START_DATE + "&" + END_DATE + "&" + START_TIME + "&" + END_TIME))
                 .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
-        //List<Meal> returned = MATCHER.fromJsonAction(actions);
-        //Meal meal = mealService.get(MEAL1_ID, START_SEQ);
-        //MATCHER.assertEquals(MEAL1, returned);
+        Meal expected = MealsUtil.mealFromExceed(DataAccessUtils.singleResult(MATCHER_WITH_EXCEED.listFromJsonAction(actions)));
+        MATCHER.assertEquals(expected, mealService.get(MEAL1_ID, START_SEQ));
     }
 }
