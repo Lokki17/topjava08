@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * 11.01.2015.
  */
 public class MealWithExceed {
-    private  Integer id;
+    private Integer id;
 
     private LocalDateTime dateTime;
 
