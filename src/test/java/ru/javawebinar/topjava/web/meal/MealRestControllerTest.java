@@ -15,14 +15,11 @@ import ru.javawebinar.topjava.web.json.JsonUtil;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import static java.time.LocalDateTime.of;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
@@ -53,8 +50,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_MEALS + MEAL1_ID))
                 .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(status().is2xxSuccessful());
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL6, MEAL5, MEAL4, MEAL3, MEAL2), mealService.getAll(START_SEQ));
     }
 
