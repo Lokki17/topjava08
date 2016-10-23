@@ -29,10 +29,10 @@ import static org.junit.Assert.*;
 public class MealRestControllerTest extends AbstractControllerTest {
 
     private static final String REST_MEALS = MealRestController.REST_MEALS + '/';
-    private static final String START_DATE = "startDate=2015-05-30";
-    private static final String END_DATE = "endDate=2015-05-30";
-    private static final String START_TIME = "startTime=10:00:00";
-    private static final String END_TIME = "endTime=10:00:00";
+    private static final String START_DATE = "2015-05-30";
+    private static final String END_DATE = "2015-05-30";
+    private static final String START_TIME = "10:00:00";
+    private static final String END_TIME = "10:00:00";
 
     private static final ModelMatcher<MealWithExceed> MATCHER_WITH_EXCEED = new ModelMatcher<>(MealWithExceed.class);
 
@@ -68,9 +68,9 @@ public class MealRestControllerTest extends AbstractControllerTest {
     public void testUpdate() throws Exception {
         Meal updated = new Meal(MEAL1);
         updated.setDescription("Еще один обед");
-        mockMvc.perform(put(REST_MEALS + MEAL1_ID).
-                contentType(MediaType.APPLICATION_JSON).
-                content(JsonUtil.writeValue(updated)))
+        mockMvc.perform(put(REST_MEALS + MEAL1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().is2xxSuccessful());
         MATCHER.assertEquals(updated, mealService.get(MEAL1_ID, START_SEQ));
     }
@@ -90,7 +90,26 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetBetween() throws Exception {
-        ResultActions actions = mockMvc.perform(get(REST_MEALS + "filter" + "?" + START_DATE + "&" + END_DATE + "&" + START_TIME + "&" + END_TIME))
+        ResultActions actions = mockMvc.perform(get(REST_MEALS + "between")
+                .param("startDate", START_DATE)
+                .param("endDate", END_DATE)
+                .param("startTime", START_TIME)
+                .param("endTime", END_TIME))
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful());
+
+        Meal expected = MealsUtil.mealFromExceed(DataAccessUtils.singleResult(MATCHER_WITH_EXCEED.listFromJsonAction(actions)));
+        MATCHER.assertEquals(expected, mealService.get(MEAL1_ID, START_SEQ));
+    }
+
+    @Test
+    public void testGetBetweenCustom() throws Exception {
+        ResultActions actions = mockMvc.perform(get(REST_MEALS + "filter")
+                .param("startDate", START_DATE)
+                .param("endDate", END_DATE)
+                .param("startTime", START_TIME)
+                .param("endTime", END_TIME))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
