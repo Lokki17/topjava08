@@ -19,8 +19,7 @@ import java.util.Collection;
 import static java.time.LocalDateTime.of;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
 
@@ -80,7 +79,8 @@ public class MealRestControllerTest extends AbstractControllerTest {
         Meal expected = new Meal(null, of(2016, Month.MAY, 30, 10, 0), "Завтрак", 500);
         ResultActions actions = mockMvc.perform(post(REST_MEALS)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected))).andExpect(status().is2xxSuccessful());
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().is2xxSuccessful());
         Meal returned = MATCHER.fromJsonAction(actions);
         expected.setId(returned.getId());
 
