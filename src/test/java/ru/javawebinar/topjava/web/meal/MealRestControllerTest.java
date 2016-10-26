@@ -58,9 +58,16 @@ public class MealRestControllerTest extends AbstractControllerTest {
         ResultActions actions = mockMvc.perform(get(REST_MEALS))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
-        Collection<Meal> result = MealsUtil.mealsFromExceed(MATCHER_WITH_EXCEED.listFromJsonAction(actions));
-        MATCHER.assertCollectionEquals(result, mealService.getAll(START_SEQ));
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(MealsUtil.createWithExceed(MEAL6, true),
+                        MealsUtil.createWithExceed(MEAL5, true),
+                        MealsUtil.createWithExceed(MEAL4, true),
+                        MealsUtil.createWithExceed(MEAL3, false),
+                        MealsUtil.createWithExceed(MEAL2, false),
+                        MealsUtil.createWithExceed(MEAL1, false)
+                        ));
+        //Collection<Meal> result = MealsUtil.mealsFromExceed(MATCHER_WITH_EXCEED.listFromJsonAction(actions));
+        //MATCHER.assertCollectionEquals(result, mealService.getAll(START_SEQ));
     }
 
     @Test
@@ -90,31 +97,36 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetBetween() throws Exception {
-        ResultActions actions = mockMvc.perform(get(REST_MEALS + "between")
+        mockMvc.perform(get(REST_MEALS + "between")
                 .param("startDate", START_DATE)
                 .param("endDate", END_DATE)
                 .param("startTime", START_TIME)
                 .param("endTime", END_TIME))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(MealsUtil.createWithExceed(MEAL1, false)));
 
-        Meal expected = MealsUtil.mealFromExceed(DataAccessUtils.singleResult(MATCHER_WITH_EXCEED.listFromJsonAction(actions)));
-        MATCHER.assertEquals(expected, mealService.get(MEAL1_ID, START_SEQ));
+        //Meal expected = MealsUtil.mealFromExceed(DataAccessUtils.singleResult(MATCHER_WITH_EXCEED.listFromJsonAction(actions)));
+        //Meal expected = MealsUtil.mealFromExceed(MATCHER_WITH_EXCEED.contentListMatcher(actions));
+        //MATCHER.assertEquals(expected, mealService.get(MEAL1_ID, START_SEQ));
     }
 
     @Test
     public void testGetBetweenCustom() throws Exception {
-        ResultActions actions = mockMvc.perform(get(REST_MEALS + "filter")
+        mockMvc.perform(get(REST_MEALS + "filter")
                 .param("startDate", START_DATE)
                 .param("endDate", END_DATE)
                 .param("startTime", START_TIME)
                 .param("endTime", END_TIME))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(MATCHER_WITH_EXCEED.contentListMatcher(MealsUtil.createWithExceed(MEAL1, false)));
 
+/*
         Meal expected = MealsUtil.mealFromExceed(DataAccessUtils.singleResult(MATCHER_WITH_EXCEED.listFromJsonAction(actions)));
         MATCHER.assertEquals(expected, mealService.get(MEAL1_ID, START_SEQ));
+*/
     }
 }
