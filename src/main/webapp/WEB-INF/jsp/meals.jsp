@@ -11,10 +11,11 @@
 <div class="jumbotron">
     <div class="container">
         <div class="shadow">
-            <section>
+            <%--<section>--%>
                 <h3><fmt:message key="meals.title"/></h3>
                 <div class="view-box">
-                    <form method="post" action="meals/filter">
+                    <%--<form method="post" action="meals/filter">--%>
+                    <form>
                         <dl>
                             <dt><fmt:message key="meals.startDate"/>:</dt>
                             <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -31,7 +32,8 @@
                             <dt><fmt:message key="meals.endTime"/>:</dt>
                             <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                         </dl>
-                        <button class="btn btn-sm btn-info" type="submit"><fmt:message key="meals.filter"/></button>
+                        <button class="btn btn-sm btn-info" type="submit" onclick="filter()"><fmt:message
+                                key="meals.filter"/></button>
                     </form>
                     <hr>
                     <a class="btn btn-sm btn-info" onclick="add()"><fmt:message key="meals.add"/></a>
@@ -64,7 +66,7 @@
                         </c:forEach>
                     </table>
                 </div>
-            </section>
+            <%--</section>--%>
         </div>
     </div>
 </div>
@@ -75,7 +77,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title"><fmt:message key="users.edit"/></h2>
+                <h2 class="modal-title"><fmt:message key="meals.edit"/></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" method="post" id="detailsForm">
@@ -86,7 +88,7 @@
 
                         <div class="col-xs-9">
                             <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
-                                   placeholder="{meals.dateTime}">
+                                   placeholder="Date">
                         </div>
                     </div>
 
@@ -95,7 +97,7 @@
                                 key="meals.description"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="description" name="description" placeholder="">
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
                     </div>
 
@@ -103,13 +105,14 @@
                         <label for="calories" class="control-label col-xs-3"><fmt:message key="meals.calories"/></label>
 
                         <div class="col-xs-9">
-                            <input type="text" class="form-control" id="calories" name="calories" placeholder="">
+                            <input type="text" class="form-control" id="calories" name="calories" placeholder="calories">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button type="submit" class="btn btn-primary"><fmt:message key="common.save"/></button>
+                            <button type="submit" class="btn btn-primary"><fmt:message
+                                    key="common.save"/></button>
                         </div>
                     </div>
                 </form>
@@ -123,42 +126,42 @@
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
 <script type="text/javascript" src="resources/js/datatablesUtil.js"></script>
-<%--<script type="text/javascript">--%>
-    <%--var ajaxUrl = 'ajax/meals/';--%>
-    <%--var datatableApi;--%>
+<script type="text/javascript">
+    var ajaxUrl = '/ajax/meals';
+    var datatableApi;
 
-    <%--// $(document).ready(function () {--%>
-    <%--$(function () {--%>
-        <%--datatableApi = $('#datatable').dataTable({--%>
-            <%--"bPaginate": false,--%>
-            <%--"bInfo": false,--%>
-            <%--"aoColumns": [--%>
-                <%--{--%>
-                    <%--"mData": "dateTime"--%>
-                <%--},--%>
-                <%--{--%>
-                    <%--"mData": "description"--%>
-                <%--},--%>
-                <%--{--%>
-                    <%--"mData": "calories"--%>
-                <%--},--%>
-                <%--{--%>
-                    <%--"sDefaultContent": "Edit",--%>
-                    <%--"bSortable": false--%>
-                <%--},--%>
-                <%--{--%>
-                    <%--"sDefaultContent": "Delete",--%>
-                    <%--"bSortable": false--%>
-                <%--}--%>
-            <%--],--%>
-            <%--"aaSorting": [--%>
-                <%--[--%>
-                    <%--0,--%>
-                    <%--"asc"--%>
-                <%--]--%>
-            <%--]--%>
-        <%--});--%>
-        <%--makeEditable();--%>
-    <%--});--%>
-<%--</script>--%>
+    // $(document).ready(function () {
+    $(function () {
+        datatableApi = $('#datatable').dataTable({
+            "bPaginate": false,
+            "bInfo": false,
+            "aoColumns": [
+                {
+                    "mData": "dateTime"
+                },
+                {
+                    "mData": "description"
+                },
+                {
+                    "mData": "calories"
+                },
+                {
+                    "sDefaultContent": "Edit",
+                    "bSortable": false
+                },
+                {
+                    "sDefaultContent": "Delete",
+                    "bSortable": false
+                }
+            ],
+            "aaSorting": [
+                [
+                    0,
+                    "asc"
+                ]
+            ]
+        });
+        makeEditable();
+    });
+</script>
 </html>
