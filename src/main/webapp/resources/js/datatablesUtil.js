@@ -1,6 +1,7 @@
 function makeEditable() {
     $('.delete').click(function () {
         deleteRow($(this).attr("id"));
+        //deleteRow($(this).attr("id"));
     });
 
     $('#detailsForm').submit(function () {
@@ -36,7 +37,7 @@ function updateTable() {
         data: $("#filter").serialize(),
         success: function (data) {
             updateTableWithData(data);
-            successNoty("Filtered")
+
         }
     });
     return false;
