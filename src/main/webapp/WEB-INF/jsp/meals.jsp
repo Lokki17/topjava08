@@ -30,7 +30,7 @@
                         <dt><fmt:message key="meals.endTime"/>:</dt>
                         <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                     </dl>
-                    <button class="btn btn-sm btn-primary" type="button" onclick="updateTable()">
+                    <button class="btn btn-sm btn-primary" type="button" onclick="updateThisTable()">
                         <fmt:message key="meals.filter"/>
                     </button>
                 </form>
@@ -160,8 +160,7 @@
         });
         makeEditable();
     });
-</script>
-<script>
+
     function updateThisTable() {
         $.ajax({
             type: "GET",
@@ -173,5 +172,18 @@
         });
         return false;
     }
+</script>
+<script>
+/*    function updateThisTable() {
+        $.ajax({
+            type: "GET",
+            url: ajaxUrl + "between",
+            data: $("#filter").serialize(),
+            success: function (data) {
+                updateTableWithData(data);
+            }
+        });
+        return false;
+    }*/
 </script>
 </html>

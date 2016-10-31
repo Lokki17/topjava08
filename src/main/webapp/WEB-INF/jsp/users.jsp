@@ -151,13 +151,20 @@
         });
         makeEditable();
     });
-</script>
-<script>
+
     function updateThisTable() {
         $.get(ajaxUrl, function (data) {
             datatableApi.clear();
             datatableApi.rows.add(data).draw();
         });
     }
+</script>
+<script>
+/*    function updateThisTable() {
+        $.get(ajaxUrl, function (data) {
+            datatableApi.clear();
+            datatableApi.rows.add(data).draw();
+        });
+    }*/
 </script>
 </html>

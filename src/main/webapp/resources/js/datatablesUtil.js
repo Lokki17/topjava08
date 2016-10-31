@@ -54,7 +54,7 @@ function save() {
         data: form.serialize(),
         success: function () {
             $('#editRow').modal('hide');
-            updateTable();
+            updateThisTable();
             successNoty('Saved');
         }
     });
