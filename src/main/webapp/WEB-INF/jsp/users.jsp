@@ -154,15 +154,10 @@
 </script>
 <script>
     function updateThisTable() {
-        $.ajax({
-            type: "GET",
-            url: ajaxUrl,
-            data: $("#filter").serialize(),
-            success: function (data) {
-                updateTableWithData(data);
-            }
+        $.get(ajaxUrl, function (data) {
+            datatableApi.clear();
+            datatableApi.rows.add(data).draw();
         });
-        return false;
     }
 </script>
 </html>

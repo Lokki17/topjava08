@@ -161,4 +161,17 @@
         makeEditable();
     });
 </script>
+<script>
+    function updateThisTable() {
+        $.ajax({
+            type: "GET",
+            url: ajaxUrl + "between",
+            data: $("#filter").serialize(),
+            success: function (data) {
+                updateTableWithData(data);
+            }
+        });
+        return false;
+    }
+</script>
 </html>

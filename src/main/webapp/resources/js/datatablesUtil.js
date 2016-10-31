@@ -23,13 +23,13 @@ function deleteRow(id) {
         url: ajaxUrl + id,
         type: 'DELETE',
         success: function () {
-            updateTable();
+            updateThisTable();
             successNoty('Deleted');
         }
     });
 }
 
-function updateTable() {
+/*function updateTable() {
     $.ajax({
         type: "GET",
         url: ajaxUrl + "between",
@@ -39,15 +39,11 @@ function updateTable() {
         }
     });
     return false;
-}
+}*/
 
 function updateTableWithData(data) {
     datatableApi.clear();
     datatableApi.rows.add(data).draw();
-/*    $.each(data, function (key, item) {
-        datatableApi.rows.add(item)
-    });*/
-/*    datatableApi.draw();*/
 }
 
 function save() {
