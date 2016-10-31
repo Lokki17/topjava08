@@ -60,7 +60,7 @@
                                 <td>${meal.calories}</td>
                                 <td><a class="btn btn-xs btn-primary edit"
                                        href="meals/update?id=${meal.id}"><fmt:message key="common.update"/></a></td>
-                                <td><a class="btn btn-xs btn-danger delete" id="${meal.id}"><fmt:message
+                                <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${meal.id})"><fmt:message
                                         key="common.delete"/></a></td>
                             </tr>
                         </c:forEach>

@@ -1,8 +1,7 @@
 function makeEditable() {
-    $('.delete').click(function () {
+/*    $('.delete').click(function () {
         deleteRow($(this).attr("id"));
-        //deleteRow($(this).attr("id"));
-    });
+    });*/
 
     $('#detailsForm').submit(function () {
         save();
@@ -37,7 +36,6 @@ function updateTable() {
         data: $("#filter").serialize(),
         success: function (data) {
             updateTableWithData(data);
-
         }
     });
     return false;
