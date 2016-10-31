@@ -44,11 +44,12 @@ function updateTable() {
 }
 
 function updateTableWithData(data) {
-    datatableApi.fnClearTable();
-    $.each(data, function (key, item) {
-        datatableApi.fnAddData(item)
-    });
-    datatableApi.fnDraw();
+    datatableApi.clear();
+    datatableApi.rows.add(data).draw();
+/*    $.each(data, function (key, item) {
+        datatableApi.rows.add(item)
+    });*/
+/*    datatableApi.draw();*/
 }
 
 function save() {

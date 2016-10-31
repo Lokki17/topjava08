@@ -129,29 +129,29 @@
 
     // $(document).ready(function () {
     $(function () {
-        datatableApi = $('#datatable').dataTable({
-            "bPaginate": false,
-            "bInfo": false,
-            "aoColumns": [
+        datatableApi = $('#datatable').DataTable({
+            "paging": false,
+            "info": false,
+            "columns": [
                 {
-                    "mData": "dateTime"
+                    "data": "dateTime"
                 },
                 {
-                    "mData": "description"
+                    "data": "description"
                 },
                 {
-                    "mData": "calories"
+                    "data": "calories"
                 },
                 {
-                    "sDefaultContent": "Edit",
-                    "bSortable": false
+                    "defaultContent": "Edit",
+                    "orderable": false
                 },
                 {
-                    "sDefaultContent": "Delete",
-                    "bSortable": false
+                    "defaultContent": "Delete",
+                    "orderable": false
                 }
             ],
-            "aaSorting": [
+            "order": [
                 [
                     0,
                     "asc"
