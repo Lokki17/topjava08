@@ -1,7 +1,4 @@
 function makeEditable() {
-/*    $('.delete').click(function () {
-        deleteRow($(this).attr("id"));
-    });*/
 
     $('#detailsForm').submit(function () {
         save();
@@ -28,18 +25,6 @@ function deleteRow(id) {
         }
     });
 }
-
-/*function updateTable() {
-    $.ajax({
-        type: "GET",
-        url: ajaxUrl + "between",
-        data: $("#filter").serialize(),
-        success: function (data) {
-            updateTableWithData(data);
-        }
-    });
-    return false;
-}*/
 
 function updateTableWithData(data) {
     datatableApi.clear();
