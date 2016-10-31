@@ -152,7 +152,7 @@
         makeEditable();
     });
 
-    function updateThisTable() {
+    function updateTable() {
         $.get(ajaxUrl, function (data) {
             datatableApi.clear();
             datatableApi.rows.add(data).draw();
