@@ -8,25 +8,14 @@ function makeEditable() {
         return false;
     });
 
-/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(event, jqXHR, options, jsExc);
-    });*/
+    });
 }
 
 function add() {
     $('#id').val(null);
     $('#editRow').modal();
-}
-
-function filter() {
-    $.ajax({
-        url: ajaxUrl + "/between",
-        type: "GET",
-        success: function(){
-            updateTable();
-            successNoty("Filtered")
-        }
-    });
 }
 
 function deleteRow(id) {
@@ -41,29 +30,27 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.fnClearTable();
-        $.each(data, function (key, item) {
-            datatableApi.fnAddData(item);
-        });
-        datatableApi.fnDraw();
+    $.ajax({
+        type: "GET",
+        url: ajaxUrl + "between",
+        data: $("#filter").serialize(),
+        success: function (data) {
+            updateTableWithData(data);
+            successNoty("Filtered")
+        }
     });
+    return false;
+}
+
+function updateTableWithData(data) {
+    datatableApi.fnClearTable();
+    $.each(data, function (key, item) {
+        datatableApi.fnAddData(item)
+    });
+    datatableApi.fnDraw();
 }
 
 function save() {
-    var form = $('#detailsForm');
-    $.ajax({
-        type: "POST",
-        url: ajaxUrl,
-        data: form.serialize(),
-        success: function () {
-            $('#editRow').modal('hide');
-            //updateTable();
-            successNoty('Saved');
-        }
-    });
-}
-function saveMeal() {
     var form = $('#detailsForm');
     $.ajax({
         type: "POST",
