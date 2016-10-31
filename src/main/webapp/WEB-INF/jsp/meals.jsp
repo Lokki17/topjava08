@@ -31,8 +31,8 @@
                         <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                     </dl>
                     <button class="btn btn-sm btn-primary" type="button" onclick="updateTable()">
-                        <fmt:message
-                                key="meals.filter"/></button>
+                        <fmt:message key="meals.filter"/>
+                    </button>
                 </form>
                 <div class="view-box">
                     <hr>

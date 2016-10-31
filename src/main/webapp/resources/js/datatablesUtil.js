@@ -66,13 +66,11 @@ function save() {
 
 function enableUser(check, id){
     var checked = check.is(":checked");
-    var message = checked == true ? "Enables" : "Disabled";
     $.ajax({
         type: "POST",
         url: ajaxUrl + "enable/" + id + "/" + checked,
         success: function(){
-            successNoty(message);
-            updateTable();
+            successNoty(checked == true ? "Enables" : "Disabled");
         }
     })
 }
