@@ -15,8 +15,8 @@
             <div class="view-box">
                 <form id="filter">
                     <dl>
-                        <dt><fmt:message key="meals.startDate"/>:</dt>
-                        <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
+                        <dt class=""><fmt:message key="meals.startDate"/>:</dt>
+                        <dd class=""><input type="date" name="startDate" value="${param.startDate}"></dd>
                     </dl>
                     <dl>
                         <dt><fmt:message key="meals.endDate"/>:</dt>
@@ -30,7 +30,7 @@
                         <dt><fmt:message key="meals.endTime"/>:</dt>
                         <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                     </dl>
-                    <button class="btn btn-sm btn-info" type="button" onclick="updateTable()"<%--onclick="filter()"--%>>
+                    <button class="btn btn-sm btn-primary" type="button" onclick="updateTable()">
                         <fmt:message
                                 key="meals.filter"/></button>
                 </form>
