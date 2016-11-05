@@ -34,6 +34,11 @@ public class MealAjaxController extends AbstractMealController {
         super.delete(id);
     }
 
+    @GetMapping(value = "/{id}")
+    public Meal get(@PathVariable("id") int id){
+        return super.get(id);
+    }
+
     @PostMapping
     public ResponseEntity<String> updateOrCreate(@Valid MealTo mealTo, BindingResult result) {
         if (result.hasErrors()) {
