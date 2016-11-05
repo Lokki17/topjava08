@@ -1,11 +1,21 @@
 package ru.javawebinar.topjava.to;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class MealTo {
     private Integer id;
+
+    @NotEmpty
     private LocalDateTime dateTime;
+
+    @NotEmpty
     private String description;
+
+    @NotEmpty
+    @Size(min = 10, max = 5000)
     private Integer calories;
 
     public MealTo() {
@@ -48,6 +58,10 @@ public class MealTo {
 
     public void setCalories(Integer calories) {
         this.calories = calories;
+    }
+
+    public boolean isNew(){
+        return id == null;
     }
 
     @Override
