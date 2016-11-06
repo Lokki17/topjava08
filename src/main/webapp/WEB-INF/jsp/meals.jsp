@@ -7,6 +7,7 @@
 <jsp:include page="fragments/headTag.jsp"/>
 <link rel="stylesheet" href="webjars/datatables/1.10.12/css/dataTables.bootstrap.min.css">
 
+
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
@@ -18,34 +19,40 @@
             <div class="view-box">
                 <form method="post" class="form-horizontal" role="form" id="filter">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="startDate"><fmt:message key="meals.startDate"/>:</label>
+                        <label class="control-label col-sm-2" for="startDate"><fmt:message
+                                key="meals.startDate"/>:</label>
 
                         <div class="col-sm-2">
-                            <input class="form-control" type="date" name="startDate" id="startDate">
+                            <%--<input class="form-control" type="text" name="startDate" id="startDate">--%>
+                            <%--<input class="form-control date-field" type="text" name="startDate" id="startDate">--%>
+                            <input class="form-control date-field" id="startDate" name="startDate"/>
                         </div>
 
                         <label class="control-label col-sm-2" for="endDate"><fmt:message key="meals.endDate"/>:</label>
 
                         <div class="col-sm-2">
-                            <input class="form-control" type="date" name="endDate" id="endDate">
+                            <%--<input class="form-control" type="date" name="endDate" id="endDate">--%>
+                            <input class="form-control date-field" name="endDate" id="endDate">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="startTime"><fmt:message key="meals.startTime"/>:</label>
+                        <label class="control-label col-sm-2" for="startTime"><fmt:message
+                                key="meals.startTime"/>:</label>
 
                         <div class="col-sm-2">
-                            <input class="form-control" type="time" name="startTime" id="startTime">
+                            <input class="form-control time-field" name="startTime" id="startTime">
                         </div>
 
                         <label class="control-label col-sm-2" for="endTime"><fmt:message key="meals.endTime"/>:</label>
 
                         <div class="col-sm-2">
-                            <input class="form-control" type="time" name="endTime" id="endTime">
+                            <input class="form-control time-field" name="endTime" id="endTime">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-8">
-                            <button class="btn btn-primary pull-right"  type="button" onclick="updateTable()"><fmt:message key="meals.filter"/></button>
+                            <button class="btn btn-primary pull-right" type="button" onclick="updateTable()">
+                                <fmt:message key="meals.filter"/></button>
                         </div>
                     </div>
                 </form>
@@ -60,20 +67,6 @@
                         <th></th>
                     </tr>
                     </thead>
-<%--                    <c:forEach items="${meals}" var="meal">
-                        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.to.MealWithExceed"/>
-                        <tr class="${meal.exceed ? 'exceeded' : 'normal'}">
-                            <td>
-                                    &lt;%&ndash;<fmt:parseDate value="${meal.dateTime}" pattern="y-M-dd'T'H:m" var="parsedDate"/>&ndash;%&gt;
-                                    &lt;%&ndash;<fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd HH:mm" />&ndash;%&gt;
-                                    ${fn:formatDateTime(meal.dateTime)}
-                            </td>
-                            <td>${meal.description}</td>
-                            <td>${meal.calories}</td>
-                            <td><a class="btn btn-xs btn-primary"><fmt:message key="common.update"/></a></td>
-                            <td><a class="btn btn-xs btn-danger" onclick="deleteRow(${meal.id})"><fmt:message key="common.delete"/></a></td>
-                        </tr>
-                    </c:forEach>--%>
                 </table>
             </div>
         </div>
@@ -119,7 +112,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button class="btn btn-primary" type="button" onclick="save()"><fmt:message key="common.save"/></button>
+                            <button class="btn btn-primary" type="button" onclick="save()"><fmt:message
+                                    key="common.save"/></button>
                         </div>
                     </div>
                 </form>
@@ -133,59 +127,46 @@
     <c:forEach var='key' items='<%=new String[]{"common.update","common.delete","common.deleted","common.saved","common.enabled","common.disabled","common.failed"}%>'>
     i18n['${key}'] = '<fmt:message key="${key}"/>';
     </c:forEach>
-    var edit_title ='<fmt:message key="meals.edit"/>';
+    var edit_title = '<fmt:message key="meals.edit"/>';
 </script>
 <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+<script type="text/javascript" src="webjars/datetimepicker/2.4.7/jquery.datetimepicker.min.js"></script>
+<%--<script type="text/javascript" src="webjars/datetimepicker/2.4.7/jquery.datetimepicker.js"></script>--%>
 <script type="text/javascript" src="resources/js/datatablesUtil.js"></script>
 <script type="text/javascript" src="resources/js/mealDatatables.js"></script>
-<%--<script type="text/javascript">
-    var ajaxUrl = 'ajax/profile/meals/';
-    var datatableApi;
 
-    function updateTable() {
-        $.ajax({
-            type: "POST",
-            url: ajaxUrl + 'filter',
-            data: $('#filter').serialize(),
-            success: updateTableByData
-        });
-    }
-
+<%--<script>
     $(function () {
-        datatableApi = $('#datatable').DataTable({
-            "paging": false,
-            "info": true,
-            "columns": [
-                {
-                    "data": "dateTime"
-                },
-                {
-                    "data": "description"
-                },
-                {
-                    "data": "calories"
-                },
-                {
-                    "defaultContent": "<fmt:message key="common.update"/>",
-                    "orderable": false
-                },
-                {
-                    "defaultContent": "<fmt:message key="common.delete"/>",
-                    "orderable": false
-                }
-            ],
-            "order": [
-                [
-                    0,
-                    "desc"
-                ]
-            ]
+
+        updateTable();
+
+        $.datetimepicker.setLocale('ru');
+
+        $('.date-field').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d',
+            lang: 'ru',
+            dayOfWeekStart: 1
         });
-        makeEditable();
+
+        $('.time-field').datetimepicker({
+            datepicker: false,
+            format: 'H:i',
+            lang: 'ru',
+            step: 30
+        });
+
+        $('#dateTime').datetimepicker({
+            format: 'Y-m-d H:i',
+            lang: 'ru',
+            dayOfWeekStart: 1,
+            step: 30
+        });
+
     });
 </script>--%>
 </html>

@@ -2,14 +2,22 @@ var ajaxUrl = 'ajax/profile/meals/';
 var datatableApi;
 
 function updateTable() {
-    $.get(ajaxUrl, updateTableByData);
+    $.ajax({
+        type: "POST",
+        "url": ajaxUrl + 'filter',
+        data: $('#filter').serialize(),
+        success: updateTableByData
+    });
+    return false;
 }
 
 $(function () {
     datatableApi = $('#datatable').DataTable({
         "ajax": {
-            "url": ajaxUrl,
-            "dataSrc": ""
+            "url": ajaxUrl + 'filter',
+            type: "POST",
+            "dataSrc": "",
+            data: $('#filter').serialize()
         },
         "paging": false,
         "info": true,
@@ -29,16 +37,16 @@ $(function () {
             {
                 "data": "calories"
             },
-                        {
-             "orderable": false,
-             "defaultContent": "",
-             "render": renderEditBtn
-             },
-             {
-             "orderable": false,
-             "defaultContent": "",
-             "render": renderDeleteBtn
-             }
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderEditBtn
+            },
+            {
+                "orderable": false,
+                "defaultContent": "",
+                "render": renderDeleteBtn
+            }
         ],
         "order": [
             [
@@ -51,5 +59,17 @@ $(function () {
             $(row).addClass(data.exceed ? 'exceeded' : 'normal');
         },
         "initComplete": makeEditable
+    });
+
+    $('.date-field').datetimepicker({
+        format:'d.m.Y',
+        lang:'ru'
+    });
+
+    $('.time-field').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        lang: 'ru',
+        step: 30
     });
 });
