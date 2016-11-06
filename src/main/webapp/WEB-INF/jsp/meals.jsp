@@ -89,7 +89,7 @@
                         <label for="dateTime" class="control-label col-xs-3"><fmt:message key="meals.dateTime"/></label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime"
+                            <input type="text" class="form-control date-time-field" id="dateTime"
                                    name="dateTime" placeholder="<fmt:message key="meals.dateTime"/>">
                         </div>
                     </div>
@@ -134,8 +134,9 @@
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/noty/2.3.8/js/noty/packaged/jquery.noty.packaged.min.js"></script>
-<script type="text/javascript" src="webjars/datetimepicker/2.4.7/jquery.datetimepicker.min.js"></script>
+<%--<script type="text/javascript" src="webjars/datetimepicker/2.4.7/jquery.datetimepicker.min.js"></script>--%>
 <%--<script type="text/javascript" src="webjars/datetimepicker/2.4.7/jquery.datetimepicker.js"></script>--%>
+<script type="text/javascript" src="webjars/datetimepicker/2.4.7/build/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="resources/js/datatablesUtil.js"></script>
 <script type="text/javascript" src="resources/js/mealDatatables.js"></script>
 

@@ -62,13 +62,23 @@ $(function () {
     });
 
     $('.date-field').datetimepicker({
-        format:'d.m.Y',
+        datepicker: true,
+        timepicker: false,
+        format:'Y-m-d',
         lang:'ru'
     });
 
     $('.time-field').datetimepicker({
         datepicker: false,
+        timepicker: true,
         format: 'H:i',
+        lang: 'ru',
+        step: 30
+    });
+    $('.date-time-field').datetimepicker({
+        datepicker: true,
+        timepicker: true,
+        format: "Y-m-d H:i",
         lang: 'ru',
         step: 30
     });
