@@ -78,7 +78,7 @@ $(function () {
     $('.date-time-field').datetimepicker({
         datepicker: true,
         timepicker: true,
-        format: "Y-m-d H:i",
+        format: "Y-m-d H:i:s",
         lang: 'ru',
         step: 30
     });

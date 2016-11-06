@@ -16,7 +16,7 @@ public class MealTo implements Serializable{
 
     @NotNull
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTime;
 
     @NotEmpty
