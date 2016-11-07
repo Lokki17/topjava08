@@ -82,4 +82,6 @@ $(function () {
         lang: 'ru',
         step: 30
     });
+
+
 });
