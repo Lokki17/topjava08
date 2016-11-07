@@ -123,10 +123,6 @@
 </div>
 </body>
 <script type="text/javascript">
-    var i18n = [];
-    <c:forEach var='key' items='<%=new String[]{"common.update","common.delete","common.deleted","common.saved","common.enabled","common.disabled","common.failed"}%>'>
-    i18n['${key}'] = '<fmt:message key="${key}"/>';
-    </c:forEach>
     var edit_title = '<fmt:message key="meals.edit"/>';
 </script>
 <%--<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>--%>
