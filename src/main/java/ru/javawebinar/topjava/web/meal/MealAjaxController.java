@@ -1,13 +1,11 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
-import ru.javawebinar.topjava.util.exception.EmptyFieldsException;
+import ru.javawebinar.topjava.util.exception.NotValidDataException;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -55,7 +53,7 @@ public class MealAjaxController extends AbstractMealController {
         if (result.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-            throw new EmptyFieldsException(sb.toString());
+            throw new NotValidDataException(sb.toString());
 //            return new ResponseEntity<>(sb.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
         if (meal.isNew()) {

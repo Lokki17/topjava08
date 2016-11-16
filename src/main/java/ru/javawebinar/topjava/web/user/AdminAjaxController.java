@@ -3,18 +3,15 @@ package ru.javawebinar.topjava.web.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
-import ru.javawebinar.topjava.util.exception.EmptyFieldsException;
+import ru.javawebinar.topjava.util.exception.NotValidDataException;
 
 import javax.validation.Valid;
-import javax.xml.soap.MessageFactory;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,7 +55,7 @@ public class AdminAjaxController extends AbstractUserController {
         } else {
             StringBuilder sb = new StringBuilder();
             result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-            throw new EmptyFieldsException(sb.toString());
+            throw new NotValidDataException(sb.toString());
         }
     }
 

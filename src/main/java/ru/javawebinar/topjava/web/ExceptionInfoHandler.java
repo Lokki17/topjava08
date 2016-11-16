@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.javawebinar.topjava.util.exception.EmptyFieldsException;
+import ru.javawebinar.topjava.util.exception.NotValidDataException;
 import ru.javawebinar.topjava.util.exception.ErrorInfo;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
@@ -39,10 +39,10 @@ public class ExceptionInfoHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EmptyFieldsException.class)
+    @ExceptionHandler(NotValidDataException.class)
     @ResponseBody
     @Order(Ordered.HIGHEST_PRECEDENCE + 2)
-    public ErrorInfo emptyInput(HttpServletRequest req, EmptyFieldsException e){
+    public ErrorInfo emptyInput(HttpServletRequest req, NotValidDataException e){
         return logAndGetErrorInfo(req, e, true);
     }
 
