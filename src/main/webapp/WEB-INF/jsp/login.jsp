@@ -19,6 +19,9 @@
                     <input type="password" placeholder="Password" class="form-control" name='password'>
                 </div>
                 <button type="submit" class="btn btn-success"><spring:message code="app.login"/></button>
+                <div class="form-group">
+                    <jsp:include page="fragments/language.jsp"/>
+                </div>
             </form:form>
         </div>
     </div>
@@ -42,7 +45,8 @@
 
         <p>Admin login: <b>admin@gmail.com / admin</b></p>
 
-        <p><a class="btn btn-primary btn-lg" role="button" href="register"><spring:message code="app.register"/> &raquo;</a></p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="register"><spring:message
+                code="app.register"/> &raquo;</a></p>
         <p>Стек технологий: <a href="http://projects.spring.io/spring-security/">Spring Security</a>,
             <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">Spring MVC</a>,
             <a href="http://projects.spring.io/spring-data-jpa/">Spring Data JPA</a>,

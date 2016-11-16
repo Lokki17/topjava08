@@ -24,24 +24,25 @@
                     </sec:authorize>
                 </form:form>
                 </li>
-                <li class="dropdown">
+                <jsp:include page="language.jsp"/>
+<%--                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">${pageContext.response.locale}<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a onclick="show('en')">English</a></li>
                         <li><a onclick="show('ru')">Русский</a></li>
                     </ul>
-                </li>
+                </li>--%>
             </ul>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
+<%--<script type="text/javascript">
     function show(val) {
         window.location.href = window.location.href.split('?')[0] + '?language=' + val;
     }
-</script>
+</script>--%>
 <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="webjars/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
