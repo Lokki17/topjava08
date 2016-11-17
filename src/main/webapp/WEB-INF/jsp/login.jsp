@@ -6,6 +6,7 @@
 
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
+<link rel="stylesheet" href="resources/css/style.css">
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -26,7 +27,6 @@
         </div>
     </div>
 </div>
-
 <div class="jumbotron">
     <div class="container">
         <c:if test="${error}">
