@@ -14,15 +14,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-/**
- * GKislin
- * 06.01.2015.
- * <p>
- * This class wrap every entity by Wrapper before assertEquals in order to compare them by comparator
- * Default comparator compare by String.valueOf(entity)
- *
- * @param <T> : Entity
- */
 public class ModelMatcher<T> {
     private static final Comparator DEFAULT_COMPARATOR =
             (Object expected, Object actual) -> expected == actual || String.valueOf(expected).equals(String.valueOf(actual));
